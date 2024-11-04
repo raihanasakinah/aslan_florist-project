@@ -15,10 +15,10 @@
 
 
 
-            
+
             <form class="newsletter-form">
                 <label class="sr-only" for="subscriber_email">Enter your Email</label>
-                <input type="text" placeholder="Your Email Address" id="subscriber_email" name="subscriber_email" required> {{-- We'll use the HTML id Global Attribute in jQuery in front/js/custom.js --}} 
+                <input type="text" placeholder="Your Email Address" id="subscriber_email" name="subscriber_email" required> {{-- We'll use the HTML id Global Attribute in jQuery in front/js/custom.js --}}
                 <button type="button" class="button" onclick="addSubscriber()">SUBMIT</button> {{-- Check the addSubscriber() function in front/js/custom.js. We'll use it in conjunction with the    id="subscriber_email"    of the <input> field --}}
             </form>
 
@@ -58,6 +58,7 @@
                             <li>
                                 <a href="{{ url('kids') }}">Kids Clothing</a>
                             </li>
+                            
                         </ul>
                     </div>
                 </div>
