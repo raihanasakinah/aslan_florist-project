@@ -27,7 +27,7 @@
 
 
 
-    @if (isset($fixBanners[1]['image']))
+    {{-- @if (isset($fixBanners[1]['image']))
         <!-- Banner-Layer -->
         <div class="banner-layer">
             <div class="container">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <!-- Banner-Layer /- -->
-    @endif
+    @endif --}}
 
 
 
@@ -50,14 +50,14 @@
                 <h3 class="sec-maker-h3">TOP COLLECTION</h3>
                 <ul class="nav tab-nav-style-1-a justify-content-center">
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#men-latest-products">New Arrivals hsyrewy4r</a>
+                        <a class="nav-link active" data-toggle="tab" href="#men-latest-products">New Arrivals</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#men-best-selling-products">Best Sellers</a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#discounted-products">Discounted Products</a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="tab" href="#men-featured-products">Featured Products</a>
                     </li>
@@ -109,12 +109,12 @@
                                                     <h6 class="item-title">
                                                         <a href="{{ url('product/' . $product['id']) }}">{{ $product['product_name'] }}</a>
                                                     </h6>
-                                                    <div class="item-stars">
+                                                    {{-- <div class="item-stars">
                                                         <div class='star' title="0 out of 5 - based on 0 Reviews">
                                                             <span style='width:0'></span>
                                                         </div>
                                                         <span>(0)</span>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
 
 
@@ -128,16 +128,16 @@
                                                 @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rs . {{ $getDiscountPrice }}
+                                                            Rp {{ $getDiscountPrice }}
                                                         </div>
                                                         <div class="item-old-price">
-                                                            Rs . {{ $product['product_price'] }}
+                                                            Rp {{ $product['product_price'] }}
                                                         </div>
                                                     </div>
                                                 @else {{-- if there's no discount on the price, show the original price --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rs . {{ $product['product_price'] }}
+                                                            Rp {{ $product['product_price'] }}
                                                         </div>
                                                     </div>
                                                 @endif
@@ -197,12 +197,12 @@
                                                     <h6 class="item-title">
                                                         <a href="{{ url('product/' . $product['id']) }}">{{ $product['product_name'] }}</a>
                                                     </h6>
-                                                    <div class="item-stars">
+                                                    {{-- <div class="item-stars">
                                                         <div class='star' title="0 out of 5 - based on 0 Reviews">
                                                             <span style='width:0'></span>
                                                         </div>
                                                         <span>(0)</span>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
 
                                                 {{-- Call the static getDiscountPrice() method in the Product.php Model to determine the final price of a product because a product can have a discount from TWO things: either a `CATEGORY` discount or `PRODUCT` discout     --}}
@@ -212,16 +212,16 @@
                                                 @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rs . {{ $getDiscountPrice }}
+                                                            Rp {{ $getDiscountPrice }}
                                                         </div>
                                                         <div class="item-old-price">
-                                                            Rs . {{ $product['product_price'] }}
+                                                            Rp {{ $product['product_price'] }}
                                                         </div>
                                                     </div>
                                                 @else {{-- if there's no discount on the price, show the original price --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rs . {{ $product['product_price'] }}
+                                                            Rp {{ $product['product_price'] }}
                                                         </div>
                                                     </div>
                                                 @endif
@@ -278,12 +278,12 @@
                                                     <h6 class="item-title">
                                                         <a href="{{ url('product/' . $product['id']) }}">{{ $product['product_name'] }}</a>
                                                     </h6>
-                                                    <div class="item-stars">
+                                                    {{-- <div class="item-stars">
                                                         <div class='star' title="0 out of 5 - based on 0 Reviews">
                                                             <span style='width:0'></span>
                                                         </div>
                                                         <span>(0)</span>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
 
                                                 {{-- Call the static getDiscountPrice() method in the Product.php Model to determine the final price of a product because a product can have a discount from TWO things: either a `CATEGORY` discount or `PRODUCT` discout     --}}
@@ -293,16 +293,16 @@
                                                 @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rs . {{ $getDiscountPrice }}
+                                                            Rp {{ $getDiscountPrice }}
                                                         </div>
                                                         <div class="item-old-price">
-                                                            Rs . {{ $product['product_price'] }}
+                                                            Rp {{ $product['product_price'] }}
                                                         </div>
                                                     </div>
                                                 @else {{-- if there's no discount on the price, show the original price --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rs . {{ $product['product_price'] }}
+                                                            Rp {{ $product['product_price'] }}
                                                         </div>
                                                     </div>
                                                 @endif
@@ -359,12 +359,12 @@
                                                     <h6 class="item-title">
                                                         <a href="{{ url('product/' . $product['id']) }}">{{ $product['product_name'] }}</a>
                                                     </h6>
-                                                    <div class="item-stars">
+                                                    {{-- <div class="item-stars">
                                                         <div class='star' title="0 out of 5 - based on 0 Reviews">
                                                             <span style='width:0'></span>
                                                         </div>
                                                         <span>(0)</span>
-                                                    </div>
+                                                    </div> --}}
                                                 </div>
 
                                                 {{-- Call the static getDiscountPrice() method in the Product.php Model to determine the final price of a product because a product can have a discount from TWO things: either a `CATEGORY` discount or `PRODUCT` discout     --}}
@@ -374,16 +374,16 @@
                                                 @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rs . {{ $getDiscountPrice }}
+                                                            Rp {{ $getDiscountPrice }}
                                                         </div>
                                                         <div class="item-old-price">
-                                                            Rs . {{ $product['product_price'] }}
+                                                            Rp {{ $product['product_price'] }}
                                                         </div>
                                                     </div>
                                                 @else {{-- if there's no discount on the price, show the original price --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rs . {{ $product['product_price'] }}
+                                                            Rp {{ $product['product_price'] }}
                                                         </div>
                                                     </div>
                                                 @endif
@@ -435,7 +435,7 @@
                             <h2>
                                 Great Value
                             </h2>
-                            <p>We offer competitive prices on our 100 million plus product range</p>
+                            <p>Beautiful flowers at friendly prices! Find the best choices without worrying about the cost</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
@@ -446,7 +446,7 @@
                             <h2>
                                 Shop with Confidence
                             </h2>
-                            <p>Our Protection covers your purchase from click to delivery</p>
+                            <p>Order flowers with peace of mind! We ensure your purchase arrives safely in your hands</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
@@ -457,7 +457,7 @@
                             <h2>
                                 Safe Payment
                             </h2>
-                            <p>Pay with the world’s most popular and secure payment methods</p>
+                            <p>Simple and secure transactions with trusted payment methods</p>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3">
@@ -466,9 +466,9 @@
                                 <i class="ion ion-md-contacts"></i>
                             </div>
                             <h2>
-                                24/7 Help Center
+                                24/7 Support
                             </h2>
-                            <p>Round-the-clock assistance for a smooth shopping experience</p>
+                            <p>Need help? Our team is here for you anytime, 24 hours a day, every day!</p>
                         </div>
                     </div>
                 </div>

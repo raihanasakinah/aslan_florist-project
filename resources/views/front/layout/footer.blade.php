@@ -3,7 +3,7 @@
     <div class="container">
         <!-- Outer-Footer -->
         <div class="outer-footer-wrapper u-s-p-y-80">
-            <h6>
+            {{-- <h6>
                 For special offers and other discount information
             </h6>
             <h1>
@@ -11,16 +11,16 @@
             </h1>
             <p>
                 Subscribe to the mailing list to receive updates on promotions, new arrivals, discount and coupons.
-            </p>
+            </p> --}}
 
 
 
-            
-            <form class="newsletter-form">
+
+            {{-- <form class="newsletter-form">
                 <label class="sr-only" for="subscriber_email">Enter your Email</label>
-                <input type="text" placeholder="Your Email Address" id="subscriber_email" name="subscriber_email" required> {{-- We'll use the HTML id Global Attribute in jQuery in front/js/custom.js --}} 
-                <button type="button" class="button" onclick="addSubscriber()">SUBMIT</button> {{-- Check the addSubscriber() function in front/js/custom.js. We'll use it in conjunction with the    id="subscriber_email"    of the <input> field --}}
-            </form>
+                <input type="text" placeholder="Your Email Address" id="subscriber_email" name="subscriber_email" required> We'll use the HTML id Global Attribute in jQuery in front/js/custom.js --}}
+                {{-- <button type="button" class="button" onclick="addSubscriber()">SUBMIT</button> Check the addSubscriber() function in front/js/custom.js. We'll use it in conjunction with the    id="subscriber_email"    of the <input> field --}}
+            {{-- </form> --}}
 
 
 
@@ -80,19 +80,19 @@
                         <ul>
                             <li>
                                 <i class="fas fa-location-arrow u-s-m-r-9"></i>
-                                <span>Multi-vendor E-commerce Application</span>
+                                <span>Kost Hj. Elly Bahar, Jalan Simpang III No. 52, RT.3/RW.1, Cupak Tangah, Pauh, KOTA PADANG, PAUH, SUMATERA BARAT, ID, 25162</span>
                             </li>
                             <li>
-                                <a href="tel:+201255845857">
+                                <a href="tel:+62 831-8175-8750">
                                 <i class="fas fa-phone u-s-m-r-9"></i>
-                                <span>+01255845857</span>
+                                <span>+62 831-8175-8750</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="mailto:info@multi-vendore-commerce.com">
+                                <a href="mailto:aslan.florist_">
                                 <i class="fas fa-envelope u-s-m-r-9"></i>
                                 <span>
-                                info@multi-vendore-commerce.com</span>
+                                aslan.florist_</span>
                                 </a>
                             </li>
                         </ul>
@@ -103,7 +103,7 @@
         <!-- Mid-Footer /- -->
         <!-- Bottom-Footer -->
         <div class="bottom-footer-wrapper">
-            <div class="social-media-wrapper">
+            {{-- <div class="social-media-wrapper">
                 <ul class="social-media-list">
                     <li>
                         <a target="_blank" href="#">
@@ -141,9 +141,9 @@
                         </a>
                     </li>
                 </ul>
-            </div>
-            <p class="copyright-text">Copyright &copy; 2022
-                <a target="_blank" rel="nofollow" href="#">Multi-vendor E-commerce Application</a> | All Right Reserved
+            </div> --}}
+            <p class="copyright-text">Copyright &copy; 2024
+                <a target="_blank" rel="nofollow" href="#">Aslan Florist</a> | All Right Reserved
             </p>
         </div>
     </div>

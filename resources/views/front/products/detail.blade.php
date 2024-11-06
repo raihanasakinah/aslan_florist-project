@@ -32,11 +32,11 @@
             content: '★ ';
         }
         .rate > input:checked ~ label {
-            color: #ffc700;    
+            color: #ffc700;
         }
         .rate:not(:checked) > label:hover,
         .rate:not(:checked) > label:hover ~ label {
-            color: #deb217;  
+            color: #deb217;
         }
         .rate > input:checked + label:hover,
         .rate > input:checked + label:hover ~ label,
@@ -48,7 +48,7 @@
     </style>
 
 
-    
+
     <!-- Page Introduction Wrapper -->
     <div class="page-style-a">
         <div class="container">
@@ -123,7 +123,7 @@
                         @endif
 
 
-                        {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}    
+                        {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}
                         @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
 
@@ -206,7 +206,7 @@
                         </div>
                         <div class="section-3-price-original-discount u-s-p-y-14">
 
-                        
+
 
                             @php $getDiscountPrice = \App\Models\Product::getDiscountPrice($productDetails['id']) @endphp
 
@@ -214,19 +214,19 @@
 
                                 @if ($getDiscountPrice > 0) {{-- if there's a discount on the product price --}}
                                     <div class="price">
-                                        <h4>EGP{{ $getDiscountPrice }}</h4>
+                                        <h4>Rp {{ $getDiscountPrice }}</h4>
                                     </div>
                                     <div class="original-price">
                                         <span>Original Price:</span>
-                                        <span>EGP{{ $productDetails['product_price'] }}</span> {{-- the product original price (without discount) --}}
+                                        <span>Rp {{ $productDetails['product_price'] }}</span> {{-- the product original price (without discount) --}}
                                     </div>
                                 @else {{-- if there's no discount on the product price --}}
                                     <div class="price">
-                                        <h4>EGP{{ $productDetails['product_price'] }}</h4> {{-- the product original price (without discount) --}}
+                                        <h4>Rp {{ $productDetails['product_price'] }}</h4> {{-- the product original price (without discount) --}}
                                     </div>
                                 @endif
 
-                            </span> 
+                            </span>
 
 
 
@@ -271,30 +271,30 @@
 
 
                         {{-- Show the vendor shop name (only in case that the product is added by a vendor, not admin or superadmin) --}}
-                        @if(isset($productDetails['vendor']))
-                            <div>
+                        {{-- @if(isset($productDetails['vendor']))
+                            <div> --}}
                                 {{-- Sold by: {{ $productDetails['vendor']['name'] }} --}}
-                                Sold by: <a href="/products/{{ $productDetails['vendor']['id'] }}">
+                                {{-- Sold by: <a href="/products/{{ $productDetails['vendor']['id'] }}">
                                             {{ $productDetails['vendor']['vendorbusinessdetails']['shop_name'] }}
-                                        </a>
-                            </div>
-                        @endif
+                                        </a> --}}
+                            {{-- </div>
+                        @endif --}}
 
 
 
-                        {{-- Add to Cart <form> --}} 
+                        {{-- Add to Cart <form> --}}
                         <form action="{{ url('cart/add') }}" method="Post" class="post-form">
                             @csrf {{-- Preventing CSRF Requests: https://laravel.com/docs/9.x/csrf#preventing-csrf-requests --}}
 
 
-                            <input type="hidden" name="product_id" value="{{ $productDetails['id'] }}"> {{-- Add to Cart <form> --}} 
+                            <input type="hidden" name="product_id" value="{{ $productDetails['id'] }}"> {{-- Add to Cart <form> --}}
 
 
                             <div class="section-5-product-variants u-s-p-y-14">
 
 
 
-                                {{-- Managing Product Colors (using the `group_code` column in `products` table) --}} 
+                                {{-- Managing Product Colors (using the `group_code` column in `products` table) --}}
                                 @if (count($groupProducts) > 0) {{-- if there's a value for the `group_code` column (in `products` table) for the currently viewed product --}}
                                     <div>
                                         <div><strong>Product Colors</strong></div>
@@ -330,7 +330,7 @@
                             </div>
                             <div class="section-6-social-media-quantity-actions u-s-p-y-14">
 
-                                
+
                                 <div class="quantity-wrapper u-s-m-b-22">
                                     <span>Quantity:</span>
                                     <div class="quantity">
@@ -349,7 +349,7 @@
                         </form>
 
 
-                        {{-- PIN code Availability Check: check if the PIN code of the user's Delivery Address exists in our database (in both `cod_pincodes` and `prepaid_pincodes`) or not via AJAX. Check front/js/custom.js --}} 
+                        {{-- PIN code Availability Check: check if the PIN code of the user's Delivery Address exists in our database (in both `cod_pincodes` and `prepaid_pincodes`) or not via AJAX. Check front/js/custom.js --}}
                         <br><br><b>Delivery</b>
                         <input type="text" id="pincode" placeholder="Check Pincode" required>
                         <button type="button" id="checkPincode">Go</button> {{-- We'll use that checkPincode HTML id attribute in front/js/custom.js as a handle for jQuery --}}
@@ -364,7 +364,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="detail-tabs-wrapper u-s-p-t-80">
-                        <div class="detail-nav-wrapper u-s-m-b-30">
+                        {{-- <div class="detail-nav-wrapper u-s-m-b-30">
                             <ul class="nav single-product-nav justify-content-center">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#video">Product Video</a>
@@ -374,13 +374,13 @@
                                 </li>
                                 <li class="nav-item">
                                     {{-- <a class="nav-link" data-toggle="tab" href="#review">Reviews (15)</a> --}}
-                                    <a class="nav-link" data-toggle="tab" href="#review">Reviews {{ count($ratings) }}</a>
+                                    {{-- <a class="nav-link" data-toggle="tab" href="#review">Reviews {{ count($ratings) }}</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> --}}
                         <div class="tab-content">
                             <!-- Description-Tab -->
-                            <div class="tab-pane fade active show" id="video">
+                            {{-- <div class="tab-pane fade active show" id="video">
                                 <div class="description-whole-container">
 
 
@@ -390,13 +390,13 @@
                                             <source src="{{ url('front/videos/product_videos/' . $productDetails['product_video']) }}" type="video/mp4">
                                         </video>
                                     @else
-                                        Product Video does not exist    
+                                        Product Video does not exist
                                     @endif
 
 
 
                                 </div>
-                            </div>
+                            </div> --}}
                             <!-- Description-Tab /- -->
                             <!-- Details-Tab -->
                             <div class="tab-pane fade" id="detail">
@@ -632,7 +632,7 @@
 
 
 
-                                {{-- Show similar products (or related products) (functionality) by getting other products from THE SAME CATEGORY --}}    
+                                {{-- Show similar products (or related products) (functionality) by getting other products from THE SAME CATEGORY --}}
                                 @foreach ($similarProducts as $product)
                                     <div class="item">
                                         <div class="image-container">
@@ -643,7 +643,7 @@
                                                 @php
                                                     $product_image_path = 'front/images/product_images/small/' . $product['product_image'];
                                                 @endphp
-                        
+
                                                 @if (!empty($product['product_image']) && file_exists($product_image_path)) {{-- if the product image exists in BOTH database table AND filesystem (on server) --}}
                                                     <img class="img-fluid" src="{{ asset($product_image_path) }}" alt="Product">
                                                 @else {{-- show the dummy image --}}
@@ -695,16 +695,16 @@
                                             @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        EGP{{ $getDiscountPrice }} 
+                                                        Rp {{ $getDiscountPrice }}
                                                     </div>
                                                     <div class="item-old-price">
-                                                        EGP{{ $product['product_price'] }}
+                                                        Rp {{ $product['product_price'] }}
                                                     </div>
                                                 </div>
                                             @else {{-- if there's no discount on the price, show the original price --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        EGP{{ $product['product_price'] }}
+                                                        Rp {{ $product['product_price'] }}
                                                     </div>
                                                 </div>
                                             @endif
@@ -748,7 +748,7 @@
                                                 @php
                                                     $product_image_path = 'front/images/product_images/small/' . $product['product_image'];
                                                 @endphp
-                        
+
                                                 @if (!empty($product['product_image']) && file_exists($product_image_path)) {{-- if the product image exists in BOTH database table AND filesystem (on server) --}}
                                                     <img class="img-fluid" src="{{ asset($product_image_path) }}" alt="Product">
                                                 @else {{-- show the dummy image --}}
@@ -799,16 +799,16 @@
                                             @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        EGP{{ $getDiscountPrice }} 
+                                                        Rp {{ $getDiscountPrice }}
                                                     </div>
                                                     <div class="item-old-price">
-                                                        EGP{{ $product['product_price'] }}
+                                                        Rp {{ $product['product_price'] }}
                                                     </div>
                                                 </div>
                                             @else {{-- if there's no discount on the price, show the original price --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-                                                        EGP{{ $product['product_price'] }}
+                                                        Rp {{ $product['product_price'] }}
                                                     </div>
                                                 </div>
                                             @endif
