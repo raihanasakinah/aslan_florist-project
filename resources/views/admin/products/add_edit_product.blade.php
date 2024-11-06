@@ -115,7 +115,7 @@
 
 
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="brand_id">Select Brand</label>
                                     <select name="brand_id" id="brand_id" class="form-control text-dark">
                                         <option value="">Select Brand</option>
@@ -123,7 +123,7 @@
                                             <option value="{{ $brand['id'] }}" @if (!empty($product['brand_id'] == $brand['id'])) selected @endif>{{ $brand['name'] }}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
                                 <div class="form-group">
                                     <label for="product_name">Product Name</label>
                                     <input type="text" class="form-control" id="product_name" placeholder="Enter Product Name" name="product_name" @if (!empty($product['product_name'])) value="{{ $product['product_name'] }}" @else value="{{ old('product_name') }}" @endif>  {{-- Repopulating Forms (using old() method): https://laravel.com/docs/9.x/validation#repopulating-forms --}}
