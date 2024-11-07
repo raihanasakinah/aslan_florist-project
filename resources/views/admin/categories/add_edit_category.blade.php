@@ -130,7 +130,7 @@
                                     <label for="url">Category URL</label>
                                     <input type="text" class="form-control" id="url" placeholder="Enter Category URL" name="url"   @if (!empty($category['url'])) value="{{ $category['url'] }}" @else value="{{ old('url') }}" @endif >
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="meta_title">Meta Title</label>
                                     <input type="text" class="form-control" id="meta_title" placeholder="Enter Meta Title" name="meta_title"   @if (!empty($category['meta_title'])) value="{{ $category['meta_title'] }}" @else value="{{ old('meta_title') }}" @endif >
                                 </div>
@@ -141,7 +141,7 @@
                                 <div class="form-group">
                                     <label for="meta_keywords">Meta Keywords</label>
                                     <input type="text" class="form-control" id="meta_keywords" placeholder="Enter Meta Keywords" name="meta_keywords"   @if (!empty($category['meta_keywords'])) value="{{ $category['meta_keywords'] }}" @else value="{{ old('meta_keywords') }}" @endif >
-                                </div>
+                                </div> --}}
                                 <button type="submit" class="btn btn-primary mr-2">Submit</button>
                                 <button type="reset"  class="btn btn-light">Cancel</button>
                             </form>
