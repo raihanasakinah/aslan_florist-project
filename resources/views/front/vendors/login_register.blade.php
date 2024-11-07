@@ -1,4 +1,4 @@
-{{-- This page is accessed from Vendor Login tab in the drop-down menu in the header (in front/layout/header.blade.php) --}} 
+{{-- This page is accessed from Vendor Login tab in the drop-down menu in the header (in front/layout/header.blade.php) --}}
 @extends('front.layout.layout')
 
 
@@ -27,7 +27,7 @@
 
 
 
-            {{-- Displaying The Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors AND https://laravel.com/docs/9.x/blade#validation-errors --}} 
+            {{-- Displaying The Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors AND https://laravel.com/docs/9.x/blade#validation-errors --}}
             {{-- Determining If An Item Exists In The Session (using has() method): https://laravel.com/docs/9.x/session#determining-if-an-item-exists-in-the-session --}}
             {{-- Our Bootstrap success message in case of updating admin password is successful: --}}
             {{-- Displaying Success Message --}}
@@ -68,7 +68,7 @@
                         <h6 class="account-h6 u-s-m-b-30">Welcome back! Sign in to your account.</h6>
 
 
-                        
+
                         <form action="{{ url('admin/login') }}" method="post"> {{-- the same HTML Form as the one in the Admin Panel in admin/login.blade.php --}}
                             @csrf {{-- https://laravel.com/docs/9.x/csrf#preventing-csrf-requests --}}
 
@@ -100,7 +100,7 @@
 
 
 
-                        
+
                         <form id="vendorForm" action="{{ url('/vendor/register') }}" method="post">
                             @csrf
 

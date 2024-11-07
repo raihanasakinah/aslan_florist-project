@@ -16,7 +16,7 @@ $sections = \App\Models\Section::sections();
                     <li>
                         <a href="tel:+201255845857">
                         <i class="fas fa-phone u-c-brand u-s-m-r-9"></i>
-                        Telephone: +201255845857</a>
+                        Telp: +201255845857</a>
                     </li>
                     <li>
                         <a href="mailto:info@multi-vendore-commerce.com">
@@ -86,19 +86,19 @@ $sections = \App\Models\Section::sections();
                                         Customer Login
                                     </a>
                                 </li>
-                                <li>
+                                {{-- <li>
                                     <a href="{{ url('vendor/login-register') }}">
                                         <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
                                         Vendor Login
                                     </a>
-                                </li>
+                                </li> --}}
                             @endif
 
 
 
                         </ul>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a>EGP
                         <i class="fas fa-chevron-down u-s-m-l-9"></i>
                         </a>
@@ -122,7 +122,7 @@ $sections = \App\Models\Section::sections();
                             <li>
                                 <a href="#">ARB</a>
                             </li>
-                        </ul>
+                        </ul> --}}
                 </ul>
             </nav>
         </div>
@@ -133,7 +133,7 @@ $sections = \App\Models\Section::sections();
         <div class="container">
             <div class="row clearfix align-items-center">
                 <div class="col-lg-3 col-md-9 col-sm-6">
-                    {{-- <div class="brand-logo text-lg-center">
+                    <div class="brand-logo text-lg-center">
 
 
                         <a href="{{ url('/') }}">
@@ -141,7 +141,7 @@ $sections = \App\Models\Section::sections();
 
                             <img src="{{ asset('front/images/main-logo/main-logo.png') }}" alt="Multi-vendor E-commerce Application" class="app-brand-logo">
                         </a>
-                    </div> --}}
+                    </div>
                 </div>
                 <div class="col-lg-6 u-d-none-lg">
 
@@ -227,9 +227,6 @@ $sections = \App\Models\Section::sections();
                         <nav>
                             <div class="v-wrapper">
                                 <ul class="v-list animated fadeIn">
-
-
-
                                     @foreach ($sections as $section)
                                         @if (count($section['categories']) > 0) {{-- if the section has child categories, show the section name, but if it doesn't, don't show it --}}
                                             <li class="js-backdrop">

@@ -24,8 +24,12 @@
                     <div class="row w-100 mx-0">
                         <div class="col-lg-4 mx-auto">
                             <div class="auth-form-light text-left py-5 px-4 px-sm-5">
-                                <h4>Hello! let's get started</h4>
-                                <h6 class="font-weight-light">Sign in to continue.</h6>
+                                {{-- <h4>Hello! let's get started</h4>
+                                <h6 class="font-weight-light">Sign in to continue.</h6> --}}
+                                {{-- <img src="{{ asset('admin/images/aslanflorist.jpg') }}" alt="Aslan" style="max-width: 50%; max-height: 50%;"> --}}
+                                <div style="display: flex; justify-content: center; align-items: center; height: 30;">
+                                    <img src="{{ asset('admin/images/aslanflorist.jpg') }}" alt="Aslan" style="max-width: 80%; max-height: 80%;">
+                                </div>
 
 
                                 {{-- Our Bootstrap error code in case of wrong credentials when logging in: --}}
@@ -38,11 +42,11 @@
                                         </button>
                                     </div>
                                 @endif
-                                
-                                {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}    
+
+                                {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}
                                 @if ($errors->any())
                                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-    
+
 
                                         @foreach ($errors->all() as $error)
                                             <li>{{ $error }}</li>
@@ -67,7 +71,7 @@
                                         <input type="password" name="password" id="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" required>
                                     </div>
                                     <div class="mt-3">
-                                        
+
                                         {{-- My code: --}}
                                         <button type="submit" class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">SIGN IN</button>
 
