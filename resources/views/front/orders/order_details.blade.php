@@ -64,7 +64,7 @@
                         </tr>
                     @endif
 
-                    
+
                     @if ($orderDetails['courier_name'] != '')
                         <tr>
                             <td>Courier Name</td>
@@ -110,7 +110,7 @@
                             <td>{{ $product['product_qty'] }}</td>
                         </tr>
 
-                        
+
                         @if ($product['courier_name'] != '')
                             <tr>
                                 <td colspan="6">Courier Name: {{ $product['courier_name'] }}, Tracking Number: {{ $product['tracking_number'] }}</td>
@@ -131,28 +131,28 @@
                         <td>Name</td>
                         <td>{{ $orderDetails['name'] }}</td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td>Address</td>
                         <td>{{ $orderDetails['address'] }}</td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <td>City</td>
                         <td>{{ $orderDetails['city'] }}</td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td>State</td>
                         <td>{{ $orderDetails['state'] }}</td>
                     </tr>
                     <tr>
                         <td>Country</td>
                         <td>{{ $orderDetails['country'] }}</td>
-                    </tr>
+                    </tr> --}}
                     <tr>
                         <td>Pincode</td>
                         <td>{{ $orderDetails['pincode'] }}</td>
                     </tr>
                     <tr>
-                        <td>Mobile</td>
+                        <td>WhatsApp</td>
                         <td>{{ $orderDetails['mobile'] }}</td>
                     </tr>
                 </table>
