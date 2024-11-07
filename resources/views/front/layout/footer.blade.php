@@ -58,6 +58,9 @@
                             <li>
                                 <a href="{{ url('acrylic') }}">Acrlic</a>
                             </li>
+                            <li>
+                                <a href="{{ url('mirror') }}">Mirror</a>
+                            </li>
 
                         </ul>
                     </div>

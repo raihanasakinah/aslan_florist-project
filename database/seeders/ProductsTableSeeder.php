@@ -17,13 +17,13 @@ class ProductsTableSeeder extends Seeder
         //
 
         // Databas Seeding
-        // Note: Check DatabaseSeeder.php        
+        // Note: Check DatabaseSeeder.php
         $productRecords = [
             [
                 'id'               => 1,
                 'section_id'       => 2,
                 'category_id'      => 5,
-                'brand_id'         => 7,
+                // 'brand_id'         => 7,
                 'vendor_id'        => 1,
                 'admin_id'         => 2,
                 'admin_type'       => 'vendor',
@@ -46,7 +46,7 @@ class ProductsTableSeeder extends Seeder
                 'id'               => 2,
                 'section_id'       => 1,
                 'category_id'      => 6,
-                'brand_id'         => 2,
+                // 'brand_id'         => 2,
                 'vendor_id'        => 0, // 0 means not a vendor
                 'admin_id'         => 1,
                 'admin_type'       => 'superadmin',

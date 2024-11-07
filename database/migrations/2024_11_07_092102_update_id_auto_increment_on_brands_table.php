@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('brands', function (Blueprint $table) {
-            // Hapus kolom 'id' yang sudah ada
+            // Hapus kolom 'id' lama jika sudah ada
             $table->dropColumn('id');
         });
 
@@ -22,7 +22,10 @@ return new class extends Migration
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::table('brands', function (Blueprint $table) {
             // Mengembalikan kolom 'id' menjadi tipe bigInteger tanpa auto-increment jika rollback
