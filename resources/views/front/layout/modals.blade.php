@@ -1,4 +1,4 @@
-{{-- Modal Popup --}} 
+{{-- Modal Popup --}}
 
 
 <!-- Dummy Selectbox -->
@@ -42,7 +42,7 @@
                             <img id="zoom-pro-quick-view" class="img-fluid" src="{{ asset('front/images/product/product@4x.jpg') }}" data-zoom-image="{{ asset('front/images/product/product@4x.jpg') }}" alt="Zoom Image">
                             <div id="gallery-quick-view" class="u-s-m-t-10">
                                 <a class="active" data-image="{{ asset('front/images/product/product@4x.jpg') }}" data-zoom-image="{{ asset('front/images/product/product@4x.jpg') }}">
-                                <img src="{{ asset('front/images/product/product@2x.jpg') }}" alt="Product">
+                                <img src="{{ asset('front/images/product/') }}" alt="Product">
                                 </a>
                                 <a data-image="{{ asset('front/images/product/product@4x.jpg') }}" data-zoom-image="{{ asset('front/images/product/product@4x.jpg') }}">
                                 <img src="{{ asset('front/images/product/product@2x.jpg') }}" alt="Product">
