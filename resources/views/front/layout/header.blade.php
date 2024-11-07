@@ -218,7 +218,7 @@ $sections = \App\Models\Section::sections();
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-3">
-                    <div class="v-menu v-close">
+                    {{-- <div class="v-menu v-close">
                         <span class="v-title">
                         <i class="ion ion-md-menu"></i>
                         All Categories
@@ -228,16 +228,16 @@ $sections = \App\Models\Section::sections();
                             <div class="v-wrapper">
                                 <ul class="v-list animated fadeIn">
                                     @foreach ($sections as $section)
-                                        @if (count($section['categories']) > 0) {{-- if the section has child categories, show the section name, but if it doesn't, don't show it --}}
-                                            <li class="js-backdrop">
+                                        @if (count($section['categories']) > 0) if the section has child categories, show the section name, but if it doesn't, don't show it --}}
+                                            {{-- <li class="js-backdrop">
                                                 <a href="javascript:;">
                                                 <i class="ion-ios-add-circle"></i>
 
 
-                                                {{ $section['name'] }} {{-- Show section name --}}
+                                                {{ $section['name'] }} Show section name --}}
 
 
-                                                <i class="ion ion-ios-arrow-forward"></i>
+                                                {{-- <i class="ion ion-ios-arrow-forward"></i>
                                                 </a>
                                                 <button class="v-button ion ion-md-add"></button>
                                                 <div class="v-drop-right" style="width: 700px;">
@@ -245,8 +245,8 @@ $sections = \App\Models\Section::sections();
 
 
 
-                                                        @foreach ($section['categories'] as $category) {{-- Show the section child categories --}}
-                                                            <div class="col-lg-4">
+                                                        @foreach ($section['categories'] as $category) Show the section child categories --}}
+                                                            {{-- <div class="col-lg-4">
                                                                 <ul class="v-level-2">
                                                                     <li>
                                                                         <a href="{{ url($category['url']) }}">{{ $category['category_name'] }}</a>
@@ -254,15 +254,15 @@ $sections = \App\Models\Section::sections();
 
 
 
-                                                                            @foreach ($category['sub_categories'] as $subcategory) {{-- Show the section child categories child Subcategories --}}
-                                                                            <li>
+                                                                            @foreach ($category['sub_categories'] as $subcategory) Show the section child categories child Subcategories --}}
+                                                                            {{-- <li>
                                                                                 <a href="{{ url($subcategory['url']) }}">{{ $subcategory['category_name'] }}</a>
                                                                             </li>
-                                                                            @endforeach
+                                                                            @endforeach --}}
 
 
 
-                                                                        </ul>
+                                                                        {{-- </ul>
                                                                     </li>
                                                                 </ul>
                                                             </div>
@@ -277,10 +277,10 @@ $sections = \App\Models\Section::sections();
                                 </ul>
                             </div>
                         </nav>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="col-lg-9">
-                    <ul class="bottom-nav g-nav u-d-none-lg">
+                    {{-- <ul class="bottom-nav g-nav u-d-none-lg">
                         <li>
                             <a href="{{ url('search-products?search=new-arrivals') }}">New Arrivals
                             <span class="superscript-label-new">NEW</span>
@@ -290,7 +290,7 @@ $sections = \App\Models\Section::sections();
                             <a href="{{ url('search-products?search=best-sellers') }}">Best Seller
                             <span class="superscript-label-hot">HOT</span>
                             </a>
-                        </li>
+                        </li> --}}
                         {{-- <li>
                             <a href="{{ url('search-products?search=featured') }}">Featured
                             </a>
@@ -300,7 +300,7 @@ $sections = \App\Models\Section::sections();
                             <span class="superscript-label-discount">>10%</span>
                             </a>
                         </li> --}}
-                        <li class="mega-position">
+                        {{-- <li class="mega-position">
                             <a>More
                             <i class="fas fa-chevron-down u-s-m-l-9"></i>
                             </a>
@@ -339,7 +339,7 @@ $sections = \App\Models\Section::sections();
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> --}}
                     </ul>
                 </div>
             </div>
