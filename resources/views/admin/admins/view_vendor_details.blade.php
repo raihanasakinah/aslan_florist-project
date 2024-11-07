@@ -185,7 +185,7 @@
                             </div>
                             @endif
 
-                            {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}    
+                            {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}
                             @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
 

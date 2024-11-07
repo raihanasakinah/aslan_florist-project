@@ -673,7 +673,7 @@
                                                         <a href="listing.html">{{ $product['product_color'] }}</a>
                                                     </li>
                                                     <li>
-                                                        <a href="listing.html">{{ $product['brand']['name'] }}</a>
+                                                        {{-- <a href="listing.html">{{ $product['brand']['name'] }}</a> --}}
 
 
 
@@ -695,7 +695,11 @@
                                             @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
+<<<<<<< HEAD
                                                         Rp {{ $getDiscountPrice }}
+=======
+                                                        EGP{{ $getDiscountPrice }}
+>>>>>>> 177ef3790c21f2406a06a2ed9de777f070d7534c
                                                     </div>
                                                     <div class="item-old-price">
                                                         Rp {{ $product['product_price'] }}
@@ -778,7 +782,7 @@
                                                         <a href="listing.html">{{ $product['product_color'] }}</a>
                                                     </li>
                                                     <li>
-                                                        <a href="listing.html">{{ $product['brand']['name'] }}</a>
+                                                        {{-- <a href="listing.html">{{ $product['brand']['name'] }}</a> --}}
 
 
 
@@ -799,7 +803,11 @@
                                             @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
+<<<<<<< HEAD
                                                         Rp {{ $getDiscountPrice }}
+=======
+                                                        EGP{{ $getDiscountPrice }}
+>>>>>>> 177ef3790c21f2406a06a2ed9de777f070d7534c
                                                     </div>
                                                     <div class="item-old-price">
                                                         Rp {{ $product['product_price'] }}

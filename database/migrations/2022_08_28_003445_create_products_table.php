@@ -18,7 +18,7 @@ return new class extends Migration
 
             $table->integer('section_id');
             $table->integer('category_id');
-            $table->integer('brand_id');
+            // $table->integer('brand_id');
             $table->integer('vendor_id'); // in case the product has been added by a some vendor (And in case the product has been added by another entity like a superadmin, admin or subadmin, the value will be 0 zero)
             $table->integer('admin_id'); // whether a vendor or a superadmin/admin/subadmin (from the `admins` table)
             $table->string('admin_type'); // can be vendor, superadmin, admin or subadmin
@@ -33,7 +33,7 @@ return new class extends Migration
             $table->integer('product_weight');
             $table->string('product_image')->nullable();
             $table->string('product_video')->nullable();
-            $table->string('group_code')->nullable(); // For Managing Product Colors (in front/products/detail.blade.php)    
+            $table->string('group_code')->nullable(); // For Managing Product Colors (in front/products/detail.blade.php)
             $table->text('description')->nullable();
             $table->string('meta_title')->nullable(); // For SEO
             $table->string('meta_keywords')->nullable();  // For SEO
