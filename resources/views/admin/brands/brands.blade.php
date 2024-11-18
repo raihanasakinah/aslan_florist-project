@@ -9,10 +9,10 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Brands</h4>
-                            
 
 
-                            
+
+
                             <a href="{{ url('admin/add-edit-brand') }}" style="max-width: 150px; float: right; display: inline-block" class="btn btn-block btn-primary">Add Brand</a>
 
                             {{-- Displaying The Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors AND https://laravel.com/docs/9.x/blade#validation-errors --}}

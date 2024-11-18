@@ -50,14 +50,18 @@
                         <h6>COLLECTION</h6>
                         <ul>
                             <li>
-                                <a href="{{ url('men') }}">Men Clothing</a>
+                                <a href="{{ url('box') }}">Box</a>
                             </li>
                             <li>
-                                <a href="{{ url('women') }}">Women Clothing</a>
+                                <a href="{{ url('flower') }}">Flower</a>
                             </li>
                             <li>
-                                <a href="{{ url('kids') }}">Kids Clothing</a>
+                                <a href="{{ url('acrylic') }}">Acrlic</a>
                             </li>
+                            <li>
+                                <a href="{{ url('mirror') }}">Mirror</a>
+                            </li>
+
                         </ul>
                     </div>
                 </div>

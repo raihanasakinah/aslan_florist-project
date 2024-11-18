@@ -20,10 +20,10 @@ class ProductsController extends Controller
         Session::put('page', 'products');
 
 
-        // Modify the last $products variable so that ONLY products that BELONG TO the 'vendor' show up in (not ALL products show up) in products.blade.php, and also make sure that the 'vendor' account is active/enabled/approved (`status` is 1) before they can access the products page    
+        // Modify the last $products variable so that ONLY products that BELONG TO the 'vendor' show up in (not ALL products show up) in products.blade.php, and also make sure that the 'vendor' account is active/enabled/approved (`status` is 1) before they can access the products page
         $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
         $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
-        
+
         if ($adminType == 'vendor') { // if the authenticated user (the logged in user) is 'vendor', check his `status`
             $vendorStatus = Auth::guard('admin')->user()->status; // `status` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `status` column in `admins` table    // https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
             if ($vendorStatus == 0) { // if the 'vendor' is inactive/disabled
@@ -52,7 +52,7 @@ class ProductsController extends Controller
 
         return view('admin.products.products')->with(compact('products')); // render products.blade.php page, and pass $products variable to the view
     }
-    
+
     public function updateProductStatus(Request $request) { // Update Product Status using AJAX in products.blade.php
         if ($request->ajax()) { // if the request is coming via an AJAX call
             $data = $request->all(); // Getting the name/value pairs array that are sent from the AJAX request (AJAX call)
@@ -77,13 +77,13 @@ class ProductsController extends Controller
 
     public function deleteProduct($id) {
         Product::where('id', $id)->delete();
-        
+
         $message = 'Product has been deleted successfully!';
-        
+
         return redirect()->back()->with('success_message', $message);
     }
 
-    public function addEditProduct(Request $request, $id = null) { // If the $id is not passed, this means 'Add a Product', if not, this means 'Edit the Product'    
+    public function addEditProduct(Request $request, $id = null) { // If the $id is not passed, this means 'Add a Product', if not, this means 'Edit the Product'
         // Correcting issues in the Skydash Admin Panel Sidebar using Session
         Session::put('page', 'products');
 
@@ -151,7 +151,7 @@ class ProductsController extends Controller
                     Image::make($image_tmp)->resize(1000, 1000)->save($largeImagePath);  // resize the 'large'  image size then store it in the 'large'  folder
                     Image::make($image_tmp)->resize(500,   500)->save($mediumImagePath); // resize the 'medium' image size then store it in the 'medium' folder
                     Image::make($image_tmp)->resize(250,   250)->save($smallImagePath);  // resize the 'small'  image size then store it in the 'small'  folder
-                
+
                     // Insert the image name in the database table
                     $product->product_image = $imageName;
                 }
@@ -166,7 +166,7 @@ class ProductsController extends Controller
                 if ($video_tmp->isValid()) { // Validating Successful Uploads: https://laravel.com/docs/9.x/requests#validating-successful-uploads
                     // Upload video
                     $extension  = $video_tmp->getClientOriginalExtension();
-                    
+
                     // Generate a new random name for the uploaded video (to avoid that the video might get overwritten if its name is repeated)
                     $videoName = rand() . '.' . $extension; // e.g.    75935.mp4
 
@@ -188,10 +188,10 @@ class ProductsController extends Controller
 
             $product->section_id  = $categoryDetails['section_id'];
             $product->category_id = $data['category_id'];
-            $product->brand_id    = $data['brand_id'];
+            // $product->brand_id    = $data['brand_id'];
             $product->group_code  = $data['group_code']; // Managing Product Colors (in front/products/detail.blade.php)
 
-            
+
             // Saving the seleted filter for a product
             $productFilters = ProductsFilter::productFilters(); // Get ALL the (enabled/active) Filters
             foreach ($productFilters as $filter) { // get ALL the filters, then check if every filter's `filter_column` is submitted by the category_filters.blade.php page
@@ -275,24 +275,25 @@ class ProductsController extends Controller
         }
 
 
-        // Get ALL the Sections with their Categories and Subcategories (Get all sections with its categories and subcategories)    // $categories are ALL the `sections` with their (parent) categories (if any (if exist)) and subcategories (if any (if exist))    
+        // Get ALL the Sections with their Categories and Subcategories (Get all sections with its categories and subcategories)    // $categories are ALL the `sections` with their (parent) categories (if any (if exist)) and subcategories (if any (if exist))
         $categories = \App\Models\Section::with('categories')->get()->toArray(); // with('categories') is the relationship method name in the Section.php Model
         // dd($categories);
 
-        // Get all brands
-        $brands = \App\Models\Brand::where('status', 1)->get()->toArray();
-        // dd($brands);
+        // // Get all brands
+        // $brands = \App\Models\Brand::where('status', 1)->get()->toArray();
+        // // dd($brands);
 
 
         // return view('admin.products.add_edit_product')->with(compact('title', 'product'));
-        return view('admin.products.add_edit_product')->with(compact('title', 'product', 'categories', 'brands'));
+        // return view('admin.products.add_edit_product')->with(compact('title', 'product', 'categories', 'brands'));
+        return view('admin.products.add_edit_product')->with(compact('title', 'product', 'categories'));
     }
 
-    public function deleteProductImage($id) { // AJAX call from admin/js/custom.js    // Delete the product image from BOTH SERVER (FILESYSTEM) & DATABASE    // $id is passed as a Route Parameter    
+    public function deleteProductImage($id) { // AJAX call from admin/js/custom.js    // Delete the product image from BOTH SERVER (FILESYSTEM) & DATABASE    // $id is passed as a Route Parameter
         // Get the product image record stored in the database
         $productImage = Product::select('product_image')->where('id', $id)->first();
         // dd($productImage);
-        
+
         // Get the product image three paths on the server (filesystem) ('small', 'medium' and 'large' folders)
         $small_image_path  = 'front/images/product_images/small/';
         $medium_image_path = 'front/images/product_images/medium/';
@@ -324,11 +325,11 @@ class ProductsController extends Controller
         return redirect()->back()->with('success_message', $message);
     }
 
-    public function deleteProductVideo($id) { // AJAX call from admin/js/custom.js    // Delete the product video from BOTH SERVER (FILESYSTEM) & DATABASE    // $id is passed as a Route Parameter    
+    public function deleteProductVideo($id) { // AJAX call from admin/js/custom.js    // Delete the product video from BOTH SERVER (FILESYSTEM) & DATABASE    // $id is passed as a Route Parameter
         // Get the product video record stored in the database
         $productVideo = Product::select('product_video')->where('id', $id)->first();
         // dd($productVideo);
-        
+
         // Get the product video path on the server (filesystem)
         $product_video_path = 'front/videos/product_videos/';
 
@@ -345,7 +346,7 @@ class ProductsController extends Controller
         return redirect()->back()->with('success_message', $message);
     }
 
-    public function addAttributes(Request $request, $id) { // Add/Edit Attributes function    
+    public function addAttributes(Request $request, $id) { // Add/Edit Attributes function
         Session::put('page', 'products');
 
         $product = Product::select('id', 'product_name', 'product_code', 'product_color', 'product_price', 'product_image')->with('attributes')->find($id); // with('attributes') is the relationship method name in the Product.php model
@@ -357,7 +358,7 @@ class ProductsController extends Controller
             foreach ($data['sku'] as $key => $value) { // or instead could be: $data['size'], $data['price'] or $data['stock']
                 // echo '<pre>', var_dump($key), '</pre>';
                 // echo '<pre>', var_dump($value), '</pre>';
-                
+
                 if (!empty($value)) {
                     // Validation:
                     // SKU duplicate check (Prevent duplicate SKU) because SKU is UNIQUE for every product
@@ -381,7 +382,7 @@ class ProductsController extends Controller
                     $attribute->price      = $data['price'][$key]; // $key denotes the iteration/loop cycle number (0, 1, 2, ...), e.g. $data['price'][0]
                     $attribute->stock      = $data['stock'][$key]; // $key denotes the iteration/loop cycle number (0, 1, 2, ...), e.g. $data['stock'][0]
                     $attribute->status     = 1;
-                    
+
                     $attribute->save();
                 }
             }
@@ -474,7 +475,7 @@ class ProductsController extends Controller
                     Image::make($image_tmp)->resize(1000, 1000)->save($largeImagePath);  // resize the 'large'  image size then store it in the 'large'  folder
                     Image::make($image_tmp)->resize(500,   500)->save($mediumImagePath); // resize the 'medium' image size then store it in the 'medium' folder
                     Image::make($image_tmp)->resize(250,   250)->save($smallImagePath);  // resize the 'small'  image size then store it in the 'small'  folder
-                
+
                     // Insert the image name in the database table `products_images`
                     $image = new ProductsImage;
 
@@ -514,11 +515,11 @@ class ProductsController extends Controller
         }
     }
 
-    public function deleteImage($id) { // AJAX call from admin/js/custom.js    // Delete the product image from BOTH SERVER (FILESYSTEM) & DATABASE    // $id is passed as a Route Parameter    
+    public function deleteImage($id) { // AJAX call from admin/js/custom.js    // Delete the product image from BOTH SERVER (FILESYSTEM) & DATABASE    // $id is passed as a Route Parameter
         // Get the product image record stored in the database
         $productImage = ProductsImage::select('image')->where('id', $id)->first();
         // dd($productImage);
-        
+
         // Get the product image three paths on the server (filesystem) ('small', 'medium' and 'large' folders)
         $small_image_path  = 'front/images/product_images/small/';
         $medium_image_path = 'front/images/product_images/medium/';

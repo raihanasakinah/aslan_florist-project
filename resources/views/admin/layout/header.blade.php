@@ -1,8 +1,16 @@
 <!-- partial:partials/_navbar.html -->
 <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    {{-- <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+        <b>Aslan Florist</b>
+    </div> --}}
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-        <b>Multi-vendor E-commerce Application Admin Panel</b>
+        <img src="{{ asset('admin/images/aslanflorist.jpg') }}" alt="Logo Aslan Florist" style="width: 60px; height: auto; margin-right: 10px;">
+        <b>Aslan Florist</b>
     </div>
+
+    {{-- <div style="display: flex; justify-content: center; align-items: center; height: 5;">
+        <img src="{{ asset('admin/images/aslanflorist.jpg') }}" alt="Aslan" style="max-width: 5%; max-height: 5%;">
+    </div> --}}
     <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
         <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
         <span class="icon-menu"></span>

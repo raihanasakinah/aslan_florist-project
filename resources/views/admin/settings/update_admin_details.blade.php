@@ -14,7 +14,7 @@
                             <div class="justify-content-end d-flex">
                                 <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
                                     <button class="btn btn-sm btn-light bg-white dropdown-toggle" type="button" id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    <i class="mdi mdi-calendar"></i> Today (10 Jan 2021)
+                                    <i class="mdi mdi-calendar"></i> Today (08 November 2024)
                                     </button>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuDate2">
                                         <a class="dropdown-item" href="#">January - March</a>
@@ -48,7 +48,7 @@
 
 
 
-                            {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}    
+                            {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}
                             @if ($errors->any())
                             <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                 {{-- <strong>Error:</strong> {{ Session::get('error_message') }} --}}
@@ -76,9 +76,9 @@
                                     </button>
                                 </div>
                             @endif
-                
 
-                            
+
+
                             <form class="forms-sample" action="{{ url('admin/update-admin-details') }}" method="post" enctype="multipart/form-data"> @csrf <!-- Using the enctype="multipart/form-data" to allow uploading files (images) -->
                                 <div class="form-group">
                                     <label>Admin Username/Email</label>
