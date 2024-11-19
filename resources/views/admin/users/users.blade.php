@@ -34,8 +34,8 @@
                                                         <th>Name</th>
                                                         <th>Address</th>
                                                         <th>City</th>
-                                                        <th>State</th>
-                                                        <th>Country</th>
+                                                        {{-- <th>State</th> --}}
+                                                        {{-- <th>Country</th> --}}
                                                         <th>Pincode</th>
                                                         <th>Mobile</th>
                                                         <th>Email</th>
@@ -51,8 +51,8 @@
                                                             <td>{{ $user['name'] }}</td>
                                                             <td>{{ $user['address'] }}</td>
                                                             <td>{{ $user['city'] }}</td>
-                                                            <td>{{ $user['state'] }}</td>
-                                                            <td>{{ $user['country'] }}</td>
+                                                            {{-- <td>{{ $user['state'] }}</td> --}}
+                                                            {{-- <td>{{ $user['country'] }}</td> --}}
                                                             <td>{{ $user['pincode'] }}</td>
                                                             <td>{{ $user['mobile'] }}</td>
                                                             <td>{{ $user['email'] }}</td>

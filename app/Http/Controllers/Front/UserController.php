@@ -314,9 +314,9 @@ class UserController extends Controller
                 // the 'name' HTML attribute of the request (the array key of the $request array) (ATTRIBUTE) => Validation Rules
                 'name'    => 'required|string|max:100',
                 'city'    => 'required|string|max:100',
-                'state'   => 'required|string|max:100',
+                // 'state'   => 'required|string|max:100',
                 'address' => 'required|string|max:100',
-                'country' => 'required|string|max:100',
+                // 'country' => 'required|string|max:100',
                 'mobile'  => 'required|numeric|digits:12',
                 'pincode' => 'required|digits:6',
 
@@ -337,8 +337,8 @@ class UserController extends Controller
                     'name'    => $data['name'],    // $data['name']       comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
                     'mobile'  => $data['mobile'],  // $data['mobile']     comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
                     'city'    => $data['city'],    // $data['city']       comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
-                    'state'   => $data['state'],   // $data['state']      comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
-                    'country' => $data['country'], // $data['country']    comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
+                    // 'state'   => $data['state'],   // $data['state']      comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
+                    // 'country' => $data['country'], // $data['country']    comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
                     'pincode' => $data['pincode'], // $data['pincode']    comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
                     'address' => $data['address'], // $data['address']    comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
                 ]);

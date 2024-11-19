@@ -37,7 +37,7 @@ $sections = \App\Models\Section::sections();
                             @if (\Illuminate\Support\Facades\Auth::check()) {{-- Determining If The Current User Is Authenticated: https://laravel.com/docs/9.x/authentication#determining-if-the-current-user-is-authenticated --}}
                                 My Account
                             @else
-                                Login/Register
+                                Login
                             @endif
 
                             <i class="fas fa-chevron-down u-s-m-l-9"></i>
