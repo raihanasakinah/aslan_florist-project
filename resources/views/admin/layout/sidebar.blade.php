@@ -167,6 +167,7 @@
                 <div class="collapse" id="ui-banners">
                     <ul class="nav flex-column sub-menu" style="background: #fff !important; color: #052CA3 !important">
                         <li class="nav-item"> <a @if (Session::get('page') == 'banners') style="background: #052CA3 !important; color: #FFF !important" @else style="background: #fff !important; color: #052CA3 !important" @endif class="nav-link" href="{{ url('admin/banners') }}">Home Page Banners</a></li>
+                        <li class="nav-item"> <a @if (Session::get('page') == 'banners') style="background: #052CA3 !important; color: #FFF !important" @else style="background: #fff !important; color: #052CA3 !important" @endif class="nav-link" href="{{ url('admin/banners') }}">Hari Peringatan</a></li>
                     </ul>
                 </div>
             </li>
