@@ -529,7 +529,9 @@ class ProductsController extends Controller
                     'size'       => $data['size']
                 ])->count();
 
-            } else { // if the user is NOT logged in (guest)
+
+            }
+            else { // if the user is NOT logged in (guest)
                 // Check if that guest or NOT logged in user has already THE SAME products `product_id` with THE SAME `size` (in `carts` table) in the Cart i.e. the `carts` table    // When user logins, their `user_id` gets updated (check userLogin() method in UserController.php)
                 $user_id = 0; // is the same as    $user_id = null;    // When user logins, their `user_id` gets updated (check userLogin() method in UserController.php)    // this is because that the use is NOT authenticated / NOT logged in i.e. guest
                 $countProducts = Cart::where([ // We get the count (number) of that specific product `product_id` with that specific `size` to prevent repetition in the `carts` table

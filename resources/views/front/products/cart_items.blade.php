@@ -6,6 +6,7 @@
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>Product</th>
                 <th>Price</th>
                 <th>Quantity</th>
@@ -26,6 +27,10 @@
                 @endphp
 
                 <tr>
+                    {{-- menambahkan checkbox --}}
+                    <td>
+                        <input type="checkbox" name="selected_products[]" value="{{ $item['product_id'] }}" class="product-checkbox">
+                    </td>
                     <td>
                         <div class="cart-anchor-image">
                             <a href="{{ url('product/' . $item['product_id']) }}">
