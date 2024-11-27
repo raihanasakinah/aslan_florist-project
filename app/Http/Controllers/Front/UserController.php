@@ -24,7 +24,7 @@ class UserController extends Controller
     public function userRegister(Request $request) {
         if ($request->ajax()) { // if the request is coming via an AJAX call
             $data = $request->all(); // Getting the name/value pairs array that are sent from the AJAX request (AJAX call)
-
+dd($request->all());
             // Validation    // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
             $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
                 // the 'name' HTML attribute of the request (the array key of the $request array) (ATTRIBUTE) => Validation Rules
@@ -84,7 +84,7 @@ class UserController extends Controller
                 ]);
 
 
-                /*
+                /*at
                 // Send an SMS using an SMS API and cURL
                 $message = 'Dear customer, you have successfully registered with Multi-vendor E-commerce Application. Login to your account to access orders, addresses and available offers';
                 $mobile = $data['mobile']; // the user's mobile that they entered while submitting the registration form
