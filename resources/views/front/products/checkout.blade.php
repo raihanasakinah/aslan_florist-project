@@ -74,16 +74,18 @@
                                         <h4 class="section-h4">Delivery Addresses</h4>
 
                                         @foreach ($deliveryAddresses as $address)
-                                            <div class="control-group" style="float: left; margin-right: 5px">
+                                            {{-- <div class="control-group" style="float: left; margin-right: 5px"> --}}
                                                 {{-- We'll use the Custom HTML data attributes:    shipping_charges    ,    total_price    ,    coupon_amount    ,    codpincodeCount    and    prepaidpincodeCount    to use them as handles for jQuery to change the calculations in "Your Order" section using jQuery. Check front/js/custom.js file --}}
-                                                <input type="radio" id="address{{ $address['id'] }}" name="address_id" value="{{ $address['id'] }}" shipping_charges="{{ $address['shipping_charges'] }}" total_price="{{ $total_price }}" coupon_amount="{{ \Illuminate\Support\Facades\Session::get('couponAmount') }}" codpincodeCount="{{ $address['codpincodeCount'] }}" prepaidpincodeCount="{{ $address['prepaidpincodeCount'] }}"> {{-- $total_price variable is passed in from checkout() method in Front/ProductsController.php --}} {{-- We created the Custom HTML Attribute id="address{{ $address['id'] }}" to get the UNIQUE ids of the addresses in order for the <label> HTML element to be able to point for that <input> --}}
+                                                {{-- <input type="radio" id="address{{ $address['id'] }}" name="address_id" value="{{ $address['id'] }}" shipping_charges="{{ $address['shipping_charges'] }}" total_price="{{ $total_price }}" coupon_amount="{{ \Illuminate\Support\Facades\Session::get('couponAmount') }}" codpincodeCount="{{ $address['codpincodeCount'] }}" prepaidpincodeCount="{{ $address['prepaidpincodeCount'] }}"> $total_price variable is passed in from checkout() method in Front/ProductsController.php We created the Custom HTML Attribute id="address{{ $address['id'] }}" to get the UNIQUE ids of the addresses in order for the <label> HTML element to be able to point for that <input> --}}
                                             </div>
                                             <div>
                                                 <label class="control-label" for="address{{ $address['id'] }}">
-                                                    {{ $address['name'] }}, {{ $address['address'] }}, {{ $address['city'] }}, {{ $address['state'] }}, {{ $address['country'] }} ({{ $address['mobile'] }})
+                                                    {{ $address['name'] }}, {{ $address['address'] }}, {{ $address['city'] }}, {{ $address['pincode'] }}, ({{ $address['mobile'] }})
                                                 </label>
-                                                <a href="javascript:;" data-addressid="{{ $address['id'] }}" class="removeAddress" style="float: right; margin-left: 10px">Remove</a> {{-- We used href="javascript:;" to prevent the <a> link from being clickable (to make the <a> unclickable) (stop the <a> function or action) because we'll use jQuery AJAX to click this link, check front/js/custom.js --}} {{-- We use the class="removeAddress" as a handle for the AJAX request in front/js/custom.js --}}
-                                                <a href="javascript:;" data-addressid="{{ $address['id'] }}" class="editAddress"   style="float: right"                   >Edit</a>   {{-- We used href="javascript:;" to prevent the <a> link from being clickable (to make the <a> unclickable) (stop the <a> function or action) because we'll use jQuery AJAX to click this link, check front/js/custom.js --}} {{-- We use the class="editAddress" as a handle for the AJAX request in front/js/custom.js --}}
+                                                <a href="javascript:;" data-addressid="{{ $address['id'] }}" class="removeAddress" style="float: right; margin-left: 10px">Remove</a>
+                                                {{-- We used href="javascript:;" to prevent the <a> link from being clickable (to make the <a> unclickable) (stop the <a> function or action) because we'll use jQuery AJAX to click this link, check front/js/custom.js --}} {{-- We use the class="removeAddress" as a handle for the AJAX request in front/js/custom.js --}}
+                                                <a href="javascript:;" data-addressid="{{ $address['id'] }}" class="editAddress"   style="float: right">Edit</a>
+                                                {{-- We used href="javascript:;" to prevent the <a> link from being clickable (to make the <a> unclickable) (stop the <a> function or action) because we'll use jQuery AJAX to click this link, check front/js/custom.js --}} {{-- We use the class="editAddress" as a handle for the AJAX request in front/js/custom.js --}}
                                             </div>
                                         @endforeach
                                         <br>
@@ -110,21 +112,36 @@
                                                     @php
                                                         $getDiscountAttributePrice = \App\Models\Product::getDiscountAttributePrice($item['product_id'], $item['size']); // from the `products_attributes` table, not the `products` table
                                                         // dd($getDiscountAttributePrice);
+
+                                                        //ambil data gambar img
+                                                        // $productImg= \App\Models\Product::select('product_image')->where('product_id',$item['product_id'])->first();
+                                                        // dd($productImg);
+                                                        //end ambil data gambar img
+
+                                                        //ambil data produk
+                                                        $product= \App\Models\Product::where('id',$item['product_id'])->first();
+                                                        //end ambil data produk
+
+
                                                     @endphp
 
 
                                                     <tr>
                                                         <td>
                                                             <a href="{{ url('product/' . $item['product_id']) }}">
-                                                                <img width="50px" src="{{ asset('front/images/product_images/small/' . $item['product']['product_image']) }}" alt="Product">
-                                                                <h6 class="order-h6">{{ $item['product']['product_name'] }}
+                                                                @if($product['product_image'])
+                                                                <img width="50px" src="{{ asset('front/images/product_images/small/' . $product['product_image']) }}" alt="Product">
+                                                                @else
+                                                                <p>Image not found</p>
+                                                                @endif
+                                                                <h6 class="order-h6">{{ $product['product_name'] }}
                                                                 <br>
-                                                                {{ $item['size'] }}/{{ $item['product']['product_color'] }}</h6>
+                                                                {{ $item['size'] }}/{{ $product['product_color'] }}</h6>
                                                             </a>
                                                             <span class="order-span-quantity">x {{ $item['quantity'] }}</span>
                                                         </td>
                                                         <td>
-                                                            <h6 class="order-h6">Rp{{ $getDiscountAttributePrice['final_price'] * $item['quantity'] }}</h6> {{-- price of all products (after discount (if any)) (= price (after discoutn) * no. of products) --}}
+                                                            <h6 class="order-h6">Rp {{ $getDiscountAttributePrice['final_price'] * $item['quantity'] }}</h6> {{-- price of all products (after discount (if any)) (= price (after discoutn) * no. of products) --}}
                                                         </td>
                                                     </tr>
 
@@ -140,7 +157,7 @@
                                                         <h3 class="order-h3">Subtotal</h3>
                                                     </td>
                                                     <td>
-                                                        <h3 class="order-h3">Rp{{ $total_price }}</h3>
+                                                        <h3 class="order-h3">Rp {{ $total_price }}</h3>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -149,7 +166,7 @@
                                                     </td>
                                                     <td>
                                                         <h6 class="order-h6">
-                                                            <span class="shipping_charges">Rp0</span>
+                                                            <span class="shipping_charges">Rp 0</span>
                                                         </h6>
                                                     </td>
                                                 </tr>
@@ -161,9 +178,9 @@
                                                         <h6 class="order-h6">
 
                                                             @if (\Illuminate\Support\Facades\Session::has('couponAmount')) {{-- We stored the 'couponAmount' in a Session Variable inside the applyCoupon() method in Front/ProductsController.php --}}
-                                                                <span class="couponAmount">Rp{{ \Illuminate\Support\Facades\Session::get('couponAmount') }}</span>
+                                                                <span class="couponAmount">Rp {{ \Illuminate\Support\Facades\Session::get('couponAmount') }}</span>
                                                             @else
-                                                                Rp0
+                                                                Rp 0
                                                             @endif
                                                         </h6>
                                                     </td>
@@ -174,7 +191,7 @@
                                                     </td>
                                                     <td>
                                                         <h3 class="order-h3">
-                                                            <strong class="grand_total">Rp{{ $total_price - \Illuminate\Support\Facades\Session::get('couponAmount') }}</strong> {{-- We create the 'grand_total' CSS class to use it as a handle for AJAX inside    $('#applyCoupon').submit();    function in front/js/custom.js --}} {{-- We stored the 'couponAmount' a Session Variable inside the applyCoupon() method in Front/ProductsController.php --}}
+                                                            <strong class="grand_total">Rp {{ $total_price - \Illuminate\Support\Facades\Session::get('couponAmount') }}</strong> {{-- We create the 'grand_total' CSS class to use it as a handle for AJAX inside    $('#applyCoupon').submit();    function in front/js/custom.js --}} {{-- We stored the 'couponAmount' a Session Variable inside the applyCoupon() method in Front/ProductsController.php --}}
                                                         </h3>
                                                     </td>
                                                 </tr>
@@ -193,9 +210,9 @@
 
 
                                         {{-- iyzico Payment Gateway integration in/with Laravel --}}
-                                        <div class="u-s-m-b-13 prepaidMethod"> {{-- We added the prepaidMethod CSS class to disable that payment method (check front/js/custom.js) if the PIN code of that user's Delivery Address doesn't exist in our `prepaid_pincodes` database table --}}
-                                            <input type="radio" class="radio-box" name="payment_gateway" id="iyzipay" value="iyzipay">
-                                            <label class="label-text" for="iyzipay">iyzipay</label>
+                                        <div class="u-s-m-b-13 prepaidMethod"> {{--  We added the prepaidMethod CSS class to disable that payment method (check front/js/custom.js) if the PIN code of that user's Delivery Address doesn't exist in our `prepaid_pincodes` database table --}}
+                                            {{-- <input type="radio" class="radio-box" name="payment_gateway" id="iyzipay" value="iyzipay">
+                                            <label class="label-text" for="iyzipay">iyzipay</label> --}}
                                         </div>
 
 
@@ -205,7 +222,8 @@
                                                 <a href="terms-and-conditions.html" class="u-c-brand">terms & conditions</a>
                                             </label>
                                         </div>
-                                        <button type="submit" id="placeOrder" class="button button-outline-secondary">Place Order</button> {{-- Show our Preloader/Loader/Loading Page/Preloading Screen while the <form> is submitted using the    id="placeOrder"    HTML attribute. Check front/js/custom.js --}}
+                                        {{-- <button type="submit" id="placeOrder" class="button button-outline-secondary">Place Order</button> Show our Preloader/Loader/Loading Page/Preloading Screen while the <form> is submitted using the    id="placeOrder"    HTML attribute. Check front/js/custom.js --}}
+                                        <button type="submit" id="placeOrder" class="btn btn-secondary">Place Order</button>
                                     </div>
                                 </form>
 

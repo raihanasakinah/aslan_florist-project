@@ -338,7 +338,8 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <button class="button button-outline-secondary" type="submit">Add to cart</button>
+                                    {{-- <button class="button button-outline-secondary" type="submit">Add to cart</button> --}}
+                                    <button type="submit" class="btn">Add to cart</button>
                                     <button class="button button-outline-secondary far fa-heart u-s-m-l-6"></button>
                                     <button class="button button-outline-secondary far fa-envelope u-s-m-l-6"></button>
                                 </div>
@@ -350,9 +351,9 @@
 
 
                         {{-- PIN code Availability Check: check if the PIN code of the user's Delivery Address exists in our database (in both `cod_pincodes` and `prepaid_pincodes`) or not via AJAX. Check front/js/custom.js --}}
-                        <br><br><b>Delivery</b>
+                        {{-- <br><br><b>Delivery</b>
                         <input type="text" id="pincode" placeholder="Check Pincode" required>
-                        <button type="button" id="checkPincode">Go</button> {{-- We'll use that checkPincode HTML id attribute in front/js/custom.js as a handle for jQuery --}}
+                        <button type="button" id="checkPincode">Go</button> We'll use that checkPincode HTML id attribute in front/js/custom.js as a handle for jQuery --}}
 
 
                     </div>
@@ -695,11 +696,7 @@
                                             @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                                                 <div class="price-template">
                                                     <div class="item-new-price">
-<<<<<<< HEAD
                                                         Rp {{ $getDiscountPrice }}
-=======
-                                                        EGP{{ $getDiscountPrice }}
->>>>>>> 177ef3790c21f2406a06a2ed9de777f070d7534c
                                                     </div>
                                                     <div class="item-old-price">
                                                         Rp {{ $product['product_price'] }}

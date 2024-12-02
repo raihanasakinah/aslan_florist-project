@@ -66,16 +66,16 @@
                     @if ($getDiscountPrice > 0) {{-- If there's a discount on the price, show the price before (the original price) and after (the new price) the discount --}}
                         <div class="price-template">
                             <div class="item-new-price">
-                                EGP{{ $getDiscountPrice }}
+                                Rp {{ $getDiscountPrice }}
                             </div>
                             <div class="item-old-price">
-                                EGP{{ $product['product_price'] }}
+                                Rp {{ $product['product_price'] }}
                             </div>
                         </div>
                     @else {{-- if there's no discount on the price, show the original price --}}
                         <div class="price-template">
                             <div class="item-new-price">
-                                EGP{{ $product['product_price'] }}
+                                Rp {{ $product['product_price'] }}
                             </div>
                         </div>
                     @endif
@@ -86,7 +86,7 @@
 
 
 
-                
+
                 @php
                     $isProductNew = \App\Models\Product::isProductNew($product['id'])
                 @endphp
@@ -97,7 +97,7 @@
                 @endif
 
 
-                
+
             </div>
         </div>
     @endforeach

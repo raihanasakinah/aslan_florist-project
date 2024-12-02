@@ -22,12 +22,14 @@ use App\Models\User;
 use App\Models\Country;
 use App\Models\ShippingCharge;
 use App\Models\OrdersProduct;
+use App\Models\ProductSelected;
 
 class ProductsController extends Controller
 {
     // match() method is used for the HTTP 'GET' requests to render listing.blade.php page and the HTTP 'POST' method for the AJAX request of the Sorting Filter or the HTML Form submission and jQuery for the Sorting Filter WITHOUT AJAX, AND ALSO for submitting the Search Form in listing.blade.php    // e.g.    /men    or    /computers
     // Search Form
-    public function listing(Request $request) { // using the Dynamic Routes with the foreach loop
+    public function listing(Request $request)
+    { // using the Dynamic Routes with the foreach loop
         // Sorting Filter WITH AJAX in listing.blade.php. Load (and check) ajax_products_listing.blade.php
         if ($request->ajax()) {
             $data = $request->all();
@@ -65,7 +67,7 @@ class ProductsController extends Controller
 
 
                 // Sorting Filter WITHOUT AJAX (using HTML <form> and jQuery) in front/products/listing.blade.php
-                if (isset($_GET['sort']) && !empty($_GET['sort'])) {// if the URL query string parameters contain '&sort=someValue'    // 'sort' is the 'name' HTML attribute of the <select> box
+                if (isset($_GET['sort']) && !empty($_GET['sort'])) { // if the URL query string parameters contain '&sort=someValue'    // 'sort' is the 'name' HTML attribute of the <select> box
                     if ($_GET['sort'] == 'product_latest') {
                         $categoryProducts->orderBy('products.id', 'Desc');
                     } elseif ($_GET['sort'] == 'price_lowest') {
@@ -105,7 +107,7 @@ class ProductsController extends Controller
                 $productIds = array();
 
                 if (isset($data['price']) && !empty($data['price'])) {
-                    foreach($data['price'] as $key => $price){
+                    foreach ($data['price'] as $key => $price) {
                         $priceArr = explode('-', $price); // Example: First loop iteration: 0, 1000    then Second loop iteration: 1000, 2000, ...etc
                         if (isset($priceArr[0]) && isset($priceArr[1])) { // Example: First loop iteration: 0, 1000    then Second loop iteration: 1000, 2000, ...etc
                             $productIds[] = Product::select('id')->whereBetween('product_price', [$priceArr[0], $priceArr[1]])->pluck('id')->toArray(); // fetch the products ids of the range $priceArr[0] and $priceArr[1] (whereBetween() method) from the `products` table    // whereBetween(): https://laravel.com/docs/9.x/queries#additional-where-clauses    // e.g.    [    [2], [4, 5], [6]    ]
@@ -122,10 +124,10 @@ class ProductsController extends Controller
                 // Size, price, color, brand, … are also Dynamic Filters, but won't be managed like the other Dynamic Filters, but we will manage every filter of them from the suitable respective database table, like the 'size' Filter from the `products_attributes` database table, 'color' Filter and `price` Filter from `products` table, 'brand' Filter from `brands` table
                 // Fourth: the 'brand' filter (from `products` and `brands` database table)
                 // if (isset($data['brand']) && !empty($data['brand'])) { // coming from the AJAX call in front/js/custom.js    // example:    $data['brand'] = 'Large'
-                    // $productIds = Product::select('id')->whereIn('brand_id', $data['brand'])->pluck('id')->toArray(); // fetch the products ids with `brand_id` of $data['brand'] from the `products` table
-                    // $productIds = Product::select('id')->whereIn('brand_id', $data['brand'])->pluck('id')->toArray(); // fetch the products ids with `brand_id` of $data['brand'] from the `products` table
+                // $productIds = Product::select('id')->whereIn('brand_id', $data['brand'])->pluck('id')->toArray(); // fetch the products ids with `brand_id` of $data['brand'] from the `products` table
+                // $productIds = Product::select('id')->whereIn('brand_id', $data['brand'])->pluck('id')->toArray(); // fetch the products ids with `brand_id` of $data['brand'] from the `products` table
 
-                    // $categoryProducts->whereIn('products.id', $productIds); // `products.id` means that `products` is the table name (means grab the `id` column of the `products` table)
+                // $categoryProducts->whereIn('products.id', $productIds); // `products.id` means that `products` is the table name (means grab the `id` column of the `products` table)
                 // }
 
 
@@ -140,11 +142,9 @@ class ProductsController extends Controller
 
 
                 return view('front.products.ajax_products_listing')->with(compact('categoryDetails', 'categoryProducts', 'url', 'meta_title', 'meta_description', 'meta_keywords'));
-
             } else {
                 abort(404); // we will create the 404 page later on    // https://laravel.com/docs/9.x/helpers#method-abort
             }
-
         } else { // Sorting Filter WITHOUT AJAX (using the HTML <form> and jQuery) Or handling the website Search Form (in front/layout/header.blade.php) BOTH in front/products/listing.blade.php
 
             // Website Search Form (to search for all website products). Check the HTML Form in front/layout/header.blade.php
@@ -161,14 +161,27 @@ class ProductsController extends Controller
                     // We join `products` table (at the `category_id` column) with `categoreis` table (becausee we're going to search `category_name` column in `categories` table)
                     // Note: It's best practice to name table columns with more verbose descriptive names (e.g. if the table name is `products`, then you should have a column called `product_id`, NOT `id`), and also, don't have repeated column names THROUGHOUT/ACROSS the tables of a certain (one) database (i.e. make all your database tables column names (throughout your database) UNIQUE (even columns in different tables!)). That's because of that problem that emerges when you join (JOIN clause) two tables which have the same column names, when you join them, the column names of the second table overrides the column names of the first table (similar column names override each other), leading to many problems. There are TWO ways/workarounds to tackle this problem
                     $categoryProducts = Product::select(
-                        'products.id', 'products.section_id', 'products.category_id', 'products.brand_id', 'products.vendor_id', 'products.product_name', 'products.product_code', 'products.product_color', 'products.product_price',  'products.product_discount', 'products.product_image', 'products.description'
+                        'products.id',
+                        'products.section_id',
+                        'products.category_id',
+                        'products.brand_id',
+                        'products.vendor_id',
+                        'products.product_name',
+                        'products.product_code',
+                        'products.product_color',
+                        'products.product_price',
+                        'products.product_discount',
+                        'products.product_image',
+                        'products.description'
                     )->join( // Joins: Inner Join Clause: https://laravel.com/docs/9.x/queries#inner-join-clause    // moving the paginate() method after checking for the sorting filter <form>    // Paginating Eloquent Results: https://laravel.com/docs/9.x/pagination#paginating-eloquent-results    // Displaying Pagination Results Using Bootstrap: https://laravel.com/docs/9.x/pagination#using-bootstrap        // https://laravel.com/docs/9.x/queries#additional-where-clauses    // using the brand() relationship method in Product.php model    // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'brand' is the relationship method name in Product.php model
                         'categories', // `categories` table
-                        'categories.id', '=', 'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
+                        'categories.id',
+                        '=',
+                        'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
                     )->where('products.status', 1)->orderBy('id', 'Desc'); // Show from the latest to the earliest (NEW ARRIVALS!)
                     // dd($categoryProducts);
 
-                // Best Sellers    // Check front/layout/header.blade.php
+                    // Best Sellers    // Check front/layout/header.blade.php
                 } elseif ($_REQUEST['search'] == 'best-sellers') {
                     $search_product = $_REQUEST['search'];
 
@@ -180,14 +193,27 @@ class ProductsController extends Controller
                     // We join `products` table (at the `category_id` column) with `categoreis` table (becausee we're going to search `category_name` column in `categories` table)
                     // Note: It's best practice to name table columns with more verbose descriptive names (e.g. if the table name is `products`, then you should have a column called `product_id`, NOT `id`), and also, don't have repeated column names THROUGHOUT/ACROSS the tables of a certain (one) database (i.e. make all your database tables column names (throughout your database) UNIQUE (even columns in different tables!)). That's because of that problem that emerges when you join (JOIN clause) two tables which have the same column names, when you join them, the column names of the second table overrides the column names of the first table (similar column names override each other), leading to many problems. There are TWO ways/workarounds to tackle this problem
                     $categoryProducts = Product::select(
-                        'products.id', 'products.section_id', 'products.category_id', 'products.brand_id', 'products.vendor_id', 'products.product_name', 'products.product_code', 'products.product_color', 'products.product_price',  'products.product_discount', 'products.product_image', 'products.description'
+                        'products.id',
+                        'products.section_id',
+                        'products.category_id',
+                        'products.brand_id',
+                        'products.vendor_id',
+                        'products.product_name',
+                        'products.product_code',
+                        'products.product_color',
+                        'products.product_price',
+                        'products.product_discount',
+                        'products.product_image',
+                        'products.description'
                     )->join( // Joins: Inner Join Clause: https://laravel.com/docs/9.x/queries#inner-join-clause    // moving the paginate() method after checking for the sorting filter <form>    // Paginating Eloquent Results: https://laravel.com/docs/9.x/pagination#paginating-eloquent-results    // Displaying Pagination Results Using Bootstrap: https://laravel.com/docs/9.x/pagination#using-bootstrap        // https://laravel.com/docs/9.x/queries#additional-where-clauses    // using the brand() relationship method in Product.php model    // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'brand' is the relationship method name in Product.php model
                         'categories', // `categories` table
-                        'categories.id', '=', 'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
+                        'categories.id',
+                        '=',
+                        'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
                     )->where('products.status', 1)->where('products.is_bestseller', 'Yes');
                     // dd($categoryProducts);
 
-                // Featured    // Check front/layout/header.blade.php
+                    // Featured    // Check front/layout/header.blade.php
                 } elseif ($_REQUEST['search'] == 'featured') {
                     $search_product = $_REQUEST['search'];
 
@@ -199,14 +225,27 @@ class ProductsController extends Controller
                     // We join `products` table (at the `category_id` column) with `categoreis` table (becausee we're going to search `category_name` column in `categories` table)
                     // Note: It's best practice to name table columns with more verbose descriptive names (e.g. if the table name is `products`, then you should have a column called `product_id`, NOT `id`), and also, don't have repeated column names THROUGHOUT/ACROSS the tables of a certain (one) database (i.e. make all your database tables column names (throughout your database) UNIQUE (even columns in different tables!)). That's because of that problem that emerges when you join (JOIN clause) two tables which have the same column names, when you join them, the column names of the second table overrides the column names of the first table (similar column names override each other), leading to many problems. There are TWO ways/workarounds to tackle this problem
                     $categoryProducts = Product::select(
-                        'products.id', 'products.section_id', 'products.category_id', 'products.brand_id', 'products.vendor_id', 'products.product_name', 'products.product_code', 'products.product_color', 'products.product_price',  'products.product_discount', 'products.product_image', 'products.description'
+                        'products.id',
+                        'products.section_id',
+                        'products.category_id',
+                        'products.brand_id',
+                        'products.vendor_id',
+                        'products.product_name',
+                        'products.product_code',
+                        'products.product_color',
+                        'products.product_price',
+                        'products.product_discount',
+                        'products.product_image',
+                        'products.description'
                     )->join( // Joins: Inner Join Clause: https://laravel.com/docs/9.x/queries#inner-join-clause    // moving the paginate() method after checking for the sorting filter <form>    // Paginating Eloquent Results: https://laravel.com/docs/9.x/pagination#paginating-eloquent-results    // Displaying Pagination Results Using Bootstrap: https://laravel.com/docs/9.x/pagination#using-bootstrap        // https://laravel.com/docs/9.x/queries#additional-where-clauses    // using the brand() relationship method in Product.php model    // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'brand' is the relationship method name in Product.php model
                         'categories', // `categories` table
-                        'categories.id', '=', 'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
+                        'categories.id',
+                        '=',
+                        'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
                     )->where('products.status', 1)->where('products.is_featured', 'Yes');
                     // dd($categoryProducts);
 
-                // Discount    // Check front/layout/header.blade.php
+                    // Discount    // Check front/layout/header.blade.php
                 } elseif ($_REQUEST['search'] == 'discounted') {
                     $search_product = $_REQUEST['search'];
 
@@ -218,10 +257,23 @@ class ProductsController extends Controller
                     // We join `products` table (at the `category_id` column) with `categoreis` table (becausee we're going to search `category_name` column in `categories` table)
                     // Note: It's best practice to name table columns with more verbose descriptive names (e.g. if the table name is `products`, then you should have a column called `product_id`, NOT `id`), and also, don't have repeated column names THROUGHOUT/ACROSS the tables of a certain (one) database (i.e. make all your database tables column names (throughout your database) UNIQUE (even columns in different tables!)). That's because of that problem that emerges when you join (JOIN clause) two tables which have the same column names, when you join them, the column names of the second table overrides the column names of the first table (similar column names override each other), leading to many problems. There are TWO ways/workarounds to tackle this problem
                     $categoryProducts = Product::select(
-                        'products.id', 'products.section_id', 'products.category_id', 'products.brand_id', 'products.vendor_id', 'products.product_name', 'products.product_code', 'products.product_color', 'products.product_price',  'products.product_discount', 'products.product_image', 'products.description'
+                        'products.id',
+                        'products.section_id',
+                        'products.category_id',
+                        'products.brand_id',
+                        'products.vendor_id',
+                        'products.product_name',
+                        'products.product_code',
+                        'products.product_color',
+                        'products.product_price',
+                        'products.product_discount',
+                        'products.product_image',
+                        'products.description'
                     )->join( // Joins: Inner Join Clause: https://laravel.com/docs/9.x/queries#inner-join-clause    // moving the paginate() method after checking for the sorting filter <form>    // Paginating Eloquent Results: https://laravel.com/docs/9.x/pagination#paginating-eloquent-results    // Displaying Pagination Results Using Bootstrap: https://laravel.com/docs/9.x/pagination#using-bootstrap        // https://laravel.com/docs/9.x/queries#additional-where-clauses    // using the brand() relationship method in Product.php model    // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'brand' is the relationship method name in Product.php model
                         'categories', // `categories` table
-                        'categories.id', '=', 'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
+                        'categories.id',
+                        '=',
+                        'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
                     )->where('products.status', 1)->where('products.product_discount', '>', 0); // Show products which have discounts more than 0 zero
                     // dd($categoryProducts);
 
@@ -236,11 +288,24 @@ class ProductsController extends Controller
                     // We join `products` table (at the `category_id` column) with `categoreis` table (becausee we're going to search `category_name` column in `categories` table)
                     // Note: It's best practice to name table columns with more verbose descriptive names (e.g. if the table name is `products`, then you should have a column called `product_id`, NOT `id`), and also, don't have repeated column names THROUGHOUT/ACROSS the tables of a certain (one) database (i.e. make all your database tables column names (throughout your database) UNIQUE (even columns in different tables!)). That's because of that problem that emerges when you join (JOIN clause) two tables which have the same column names, when you join them, the column names of the second table overrides the column names of the first table (similar column names override each other), leading to many problems. There are TWO ways/workarounds to tackle this problem
                     $categoryProducts = Product::select(
-                        'products.id', 'products.section_id', 'products.category_id', 'products.brand_id', 'products.vendor_id', 'products.product_name', 'products.product_code', 'products.product_color', 'products.product_price',  'products.product_discount', 'products.product_image', 'products.description'
+                        'products.id',
+                        'products.section_id',
+                        'products.category_id',
+                        'products.brand_id',
+                        'products.vendor_id',
+                        'products.product_name',
+                        'products.product_code',
+                        'products.product_color',
+                        'products.product_price',
+                        'products.product_discount',
+                        'products.product_image',
+                        'products.description'
                     )->join( // Joins: Inner Join Clause: https://laravel.com/docs/9.x/queries#inner-join-clause    // moving the paginate() method after checking for the sorting filter <form>    // Paginating Eloquent Results: https://laravel.com/docs/9.x/pagination#paginating-eloquent-results    // Displaying Pagination Results Using Bootstrap: https://laravel.com/docs/9.x/pagination#using-bootstrap        // https://laravel.com/docs/9.x/queries#additional-where-clauses    // using the brand() relationship method in Product.php model    // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'brand' is the relationship method name in Product.php model
                         'categories', // `categories` table
-                        'categories.id', '=', 'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
-                    )->where(function($query) use ($search_product) { // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries    // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'brand' is the relationship method name in Product.php model    // function () use ()     syntax: https://www.php.net/manual/en/functions.anonymous.php#:~:text=the%20use%20language%20construct
+                        'categories.id',
+                        '=',
+                        'products.category_id' // JOIN both `products` and `categories` tables at    `categories`.`id` = `products`.`category_id`
+                    )->where(function ($query) use ($search_product) { // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries    // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'brand' is the relationship method name in Product.php model    // function () use ()     syntax: https://www.php.net/manual/en/functions.anonymous.php#:~:text=the%20use%20language%20construct
                         // We'll search for the searched term by the user in the `product_name`, `product_code`, `product_color` and `description` columns in the `products` table and in the `category_name` column in the `categories` table
                         $query->where('products.product_name',    'like', '%' . $search_product . '%')  // 'like' SQL operator    // '%' SQL Wildcard Character    // Basic Where Clauses: Where Clauses: https://laravel.com/docs/9.x/queries#where-clauses
                             ->orWhere('products.product_code',    'like', '%' . $search_product . '%')  // 'like' SQL operator    // '%' SQL Wildcard Character    // Basic Where Clauses: Where Clauses: https://laravel.com/docs/9.x/queries#where-clauses
@@ -262,7 +327,6 @@ class ProductsController extends Controller
 
 
                 return view('front.products.listing')->with(compact('categoryDetails', 'categoryProducts'));
-
             } else { // If the Search Form is NOT used, render the listing.blade.php page with the Sorting Filter WITHOUT AJAX (using the HTML <form> and jQuery)
                 $url = \Illuminate\Support\Facades\Route::getFacadeRoot()->current()->uri(); // Accessing The Current Route: https://laravel.com/docs/9.x/routing#accessing-the-current-route    // Accessing The Current URL: https://laravel.com/docs/9.x/urls#accessing-the-current-url
                 // dd($url);
@@ -279,7 +343,7 @@ class ProductsController extends Controller
 
 
                     // Sorting Filter WITHOUT AJAX (using HTML <form> and jQuery) in front/products/listing.blade.php
-                    if (isset($_GET['sort']) && !empty($_GET['sort'])) {// if the URL query string parameters contain '&sort=someValue'    // 'sort' is the 'name' HTML attribute of the <select> box
+                    if (isset($_GET['sort']) && !empty($_GET['sort'])) { // if the URL query string parameters contain '&sort=someValue'    // 'sort' is the 'name' HTML attribute of the <select> box
                         if ($_GET['sort'] == 'product_latest') {
                             $categoryProducts->orderBy('products.id', 'Desc');
                         } elseif ($_GET['sort'] == 'price_lowest') {
@@ -304,25 +368,27 @@ class ProductsController extends Controller
 
 
                     return view('front.products.listing')->with(compact('categoryDetails', 'categoryProducts', 'url', 'meta_title', 'meta_description', 'meta_keywords'));
-
                 } else {
                     abort(404); // we will create the 404 page later on    // https://laravel.com/docs/9.x/helpers#method-abort
                 }
-
             }
-
         }
     }
 
 
 
     // Render Single Product Detail Page in front/products/detail.blade.php
-    public function detail($id) { // Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
+    public function detail($id)
+    { // Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
         $productDetails = Product::with([
-            'section', 'category', 'attributes' => function($query) { // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries    // 'section', 'category', 'brand', 'attributes', 'images', 'vendor' are the relationship method names in Product.php model which are being Eager Loaded (Eager Loading)
+            'section',
+            'category',
+            'attributes' => function ($query) { // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries    // 'section', 'category', 'brand', 'attributes', 'images', 'vendor' are the relationship method names in Product.php model which are being Eager Loaded (Eager Loading)
                 // 'section', 'category', 'brand', 'attributes' => function($query) { // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries    // 'section', 'category', 'brand', 'attributes', 'images', 'vendor' are the relationship method names in Product.php model which are being Eager Loaded (Eager Loading)
                 $query->where('stock', '>', 0)->where('status', 1); // the 'attributes' relationship method in Product.php model     // Constraining Eager Loads to get the `products_attributes` of `stock` more than Zero 0 ONLY and `status` is 1 (active/enabled)
-            }, 'images', 'vendor'
+            },
+            'images',
+            'vendor'
         ])->find($id)->toArray(); // Eager Loading (using with() method): https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // Eager Loading Multiple Relationships: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading-multiple-relationships
 
 
@@ -452,7 +518,8 @@ class ProductsController extends Controller
 
 
     // The AJAX call from front/js/custom.js file, to show the the correct related `price` and `stock` depending on the selected `size` (from the `products_attributes` table)) by clicking the size <select> box in front/products/detail.blade.php
-    public function getProductPrice(Request $request) {
+    public function getProductPrice(Request $request)
+    {
         if ($request->ajax()) { // if the request is coming via an AJAX call
             $data = $request->all(); // Getting the name/value pairs array that are sent from the AJAX request (AJAX call)
 
@@ -466,7 +533,8 @@ class ProductsController extends Controller
 
 
     // Show all Vendor products in front/products/vendor_listing.blade.php    // This route is accessed from the <a> HTML element in front/products/vendor_listing.blade.php
-    public function vendorListing($vendorid) { // Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
+    public function vendorListing($vendorid)
+    { // Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
         // Get vendor shop name
         $getVendorShop = Vendor::getVendorShop($vendorid);
 
@@ -483,7 +551,9 @@ class ProductsController extends Controller
 
 
     // Add to Cart <form> submission in front/products/detail.blade.php
-    public function cartAdd(Request $request) {
+    public function cartAdd(Request $request)
+    {
+        //dd($request)
         if ($request->isMethod('post')) { // if the Add to Cart <form> is submitted
             $data = $request->all();
 
@@ -528,10 +598,7 @@ class ProductsController extends Controller
                     'product_id' => $data['product_id'],
                     'size'       => $data['size']
                 ])->count();
-
-
-            }
-            else { // if the user is NOT logged in (guest)
+            } else { // if the user is NOT logged in (guest)
                 // Check if that guest or NOT logged in user has already THE SAME products `product_id` with THE SAME `size` (in `carts` table) in the Cart i.e. the `carts` table    // When user logins, their `user_id` gets updated (check userLogin() method in UserController.php)
                 $user_id = 0; // is the same as    $user_id = null;    // When user logins, their `user_id` gets updated (check userLogin() method in UserController.php)    // this is because that the use is NOT authenticated / NOT logged in i.e. guest
                 $countProducts = Cart::where([ // We get the count (number) of that specific product `product_id` with that specific `size` to prevent repetition in the `carts` table
@@ -570,12 +637,13 @@ class ProductsController extends Controller
     }
 
     // Render Cart page (front/products/cart.blade.php)
-    public function cart() {
+    public function cart()
+    {
         // Get the Cart Items of a cerain user (using their `user_id` if they're authenticated/logged in or their `session_id` if they're not authenticated/not logged in (guest))
         $getCartItems = Cart::getCartItems();
 
         // Static SEO (HTML meta tags): Check the HTML <meta> tags and <title> tag in front/layout/layout.blade.php
-        $meta_title       = 'Aslan FLorist';
+        $meta_title       = 'Aslan Florist';
         $meta_keywords    = 'shopping cart';
 
 
@@ -583,7 +651,9 @@ class ProductsController extends Controller
     }
 
     // Update Cart Item Quantity AJAX call in front/products/cart_items.blade.php. Check front/js/custom.js
-    public function cartUpdate(Request $request) {
+    public function cartUpdate(Request $request)
+    {
+
         if ($request->ajax()) { // if the request is coming via an AJAX call
             $data = $request->all(); // Getting the name/value pairs array that are sent from the AJAX request (AJAX call)
 
@@ -614,10 +684,10 @@ class ProductsController extends Controller
                     'status'     => false,
                     'message'    => 'Product Stock is not available',
                     // We'll use that array key 'view' as a JavaScript 'response' property to render the view (    $('#appendCartItems').html(resp.view);    ). Check front/js/custom.js
-                    'view'       => (String) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses
+                    'view'       => (string) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses
 
                     // We added this view later (Mini Cart Widget) (separate file)
-                    'headerview' => (String) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                    'headerview' => (string) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
                 ]);
             }
 
@@ -638,8 +708,8 @@ class ProductsController extends Controller
                     'status'  => false,
                     'message' => 'Product Size is not available. Please remove this Product and choose another one!', // that size's `status` is zero 0 (inactive/disabled)
                     // We'll use that array key 'view' as a JavaScript 'response' property to render the view (    $('#appendCartItems').html(resp.view);    ). Check front/js/custom.js
-                    'view'    => (String) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
-                    'headerview' => (String) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                    'view'    => (string) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                    'headerview' => (string) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
                 ]);
             }
 
@@ -666,14 +736,15 @@ class ProductsController extends Controller
                 'status'         => true,
                 'totalCartItems' => $totalCartItems, // totalCartItems() function is in our custom Helpers/Helper.php file that we have registered in 'composer.json' file    // We created the CSS class 'totalCartItems' in front/layout/header.blade.php to use it in front/js/custom.js to update the total cart items via AJAX, because in pages that we originally use AJAX to update the cart items (such as when we delete a cart item in http://127.0.0.1:8000/cart using AJAX), the number doesn't change in the header automatically because AJAX is already used and no page reload/refresh has occurred
                 // We'll use that array key 'view' as a JavaScript 'response' property to render the view (    $('#appendCartItems').html(resp.view);    ). Check front/js/custom.js
-                'view'           => (String) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
-                'headerview' => (String) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                'view'           => (string) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                'headerview' => (string) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
             ]);
         }
     }
 
     // Delete a Cart Item AJAX call in front/products/cart_items.blade.php. Check front/js/custom.js
-    public function cartDelete(Request $request) {
+    public function cartDelete(Request $request)
+    {
         if ($request->ajax()) { // if the request is coming via an AJAX call
             // We need to remove/empty (forget) the 'couponAmount' and 'couponCode' Session Variables (reset the whole process of Applying the Coupon) whenever a user applies a new coupon, or updates Cart items (changes items quantity for example) or deletes items from the Cart or even Adds new items in the Cart
             Session::forget('couponAmount'); // Deleting Data: https://laravel.com/docs/9.x/session#deleting-data
@@ -696,8 +767,8 @@ class ProductsController extends Controller
                 // 'status' => true,
                 'totalCartItems' => $totalCartItems, // totalCartItems() function is in our custom Helpers/Helper.php file that we have registered in 'composer.json' file    // We created the CSS class 'totalCartItems' in front/layout/header.blade.php to use it in front/js/custom.js to update the total cart items via AJAX, because in pages that we originally use AJAX to update the cart items (such as when we delete a cart item in http://127.0.0.1:8000/cart using AJAX), the number doesn't change in the header automatically because AJAX is already used and no page reload/refresh has occurred
                 // We'll use that array key 'view' as a JavaScript 'response' property to render the view (    $('#appendCartItems').html(resp.view);    ). Check front/js/custom.js
-                'view'   => (String) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
-                'headerview' => (String) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                'view'   => (string) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                'headerview' => (string) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
             ]);
         }
     }
@@ -706,7 +777,8 @@ class ProductsController extends Controller
 
     // Note: For Coupons module, user must be logged in (authenticated) to be able to redeem them. Both 'admins' and 'vendors' can add Coupons. Coupons added by 'vendor' will be available for their products ONLY, but ones added by 'admins' will be available for ALL products.
     // Coupon Code redemption (Apply coupon) / Coupon Code HTML Form submission via AJAX in front/products/cart_items.blade.php, check front/js/custom.js
-    public function applyCoupon(Request $request) {
+    public function applyCoupon(Request $request)
+    {
         if ($request->ajax()) { // if the request is coming via an AJAX call
             $data = $request->all(); // Getting the name/value pairs array that are sent from the AJAX request (AJAX call) (through the 'data' object)
 
@@ -729,10 +801,9 @@ class ProductsController extends Controller
                     'totalCartItems' => $totalCartItems, // totalCartItems() function is in our custom Helpers/Helper.php file that we have registered in 'composer.json' file    // We created the CSS class 'totalCartItems' in front/layout/header.blade.php to use it in front/js/custom.js to update the total cart items via AJAX, because in pages that we originally use AJAX to update the cart items (such as when we delete a cart item in http://127.0.0.1:8000/cart using AJAX), the number doesn't change in the header automatically because AJAX is already used and no page reload/refresh has occurred
                     'message'        => 'The coupon is invalid!',
                     // We'll use that array key 'view' as a JavaScript 'response' property to render the view (    $('#appendCartItems').html(resp.view);    ). Check front/js/custom.js
-                    'view'           => (String) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
-                    'headerview'     => (String) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                    'view'           => (string) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                    'headerview'     => (string) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
                 ]);
-
             } else { // if the submitted coupon is valid, check some conditions (do some validation)
                 // SUBMITTED COUPON CODE VALIDATION:
 
@@ -828,11 +899,10 @@ class ProductsController extends Controller
                         'totalCartItems' => $totalCartItems, // totalCartItems() function is in our custom Helpers/Helper.php file that we have registered in 'composer.json' file    // We created the CSS class 'totalCartItems' in front/layout/header.blade.php to use it in front/js/custom.js to update the total cart items via AJAX, because in pages that we originally use AJAX to update the cart items (such as when we delete a cart item in http://127.0.0.1:8000/cart using AJAX), the number doesn't change in the header automatically because AJAX is already used and no page reload/refresh has occurred
                         'message'        => $message,
                         // We'll use that array key 'view' as a JavaScript 'response' property to render the view (    $('#appendCartItems').html(resp.view);    ). Check front/js/custom.js
-                        'view'           => (String) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                        'view'           => (string) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
 
-                        'headerview'     => (String) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                        'headerview'     => (string) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
                     ]);
-
                 } else { // if the submitted coupon code is correct and passes the previous coupon code validation and passes all the previous if conditions (free of errors)
 
 
@@ -849,7 +919,7 @@ class ProductsController extends Controller
 
                     // Assign the Coupon Code and $couponAmount to Session Variables
                     Session::put('couponAmount', $couponAmount);
-                    Session::put('couponCode'  , $data['code']); // $data['code'] comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
+                    Session::put('couponCode', $data['code']); // $data['code'] comes from the 'data' object sent from inside the $.ajax() method in front/js/custom.js file
 
                     $message = 'Coupon Code successfully applied. You are availing discount!';
 
@@ -861,8 +931,8 @@ class ProductsController extends Controller
                         'grand_total'    => $grand_total,
                         'message'        => $message,
                         // We'll use that array key 'view' as a JavaScript 'response' property to render the view (    $('#appendCartItems').html(resp.view);    ). Check front/js/custom.js
-                        'view'           => (String) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
-                        'headerview'     => (String) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                        'view'           => (string) \Illuminate\Support\Facades\View::make('front.products.cart_items')->with(compact('getCartItems')), // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                        'headerview'     => (string) \Illuminate\Support\Facades\View::make('front.layout.header_cart_items')->with(compact('getCartItems')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
                     ]);
                 }
             }
@@ -870,54 +940,185 @@ class ProductsController extends Controller
     }
 
 
+    public function productSelected(Request $request){
+        $data= $request->all();
 
+        if(empty($data['selected_products'])){
+            $message = 'Check Items Shopping Cart is empty! Please add products to your Cart or select product to checkout';
+            return redirect('cart')->with('error_message', $message); // redirect user to the cart.blade.php page, and show an error message in cart.blade.php
+        }
+
+        if (!empty($checkedItems) && count($checkedItems) == 0) {
+            $message = 'No products selected! Please select products to checkout.';
+            return redirect('cart')->with('error_message', $message);
+        }
+
+
+        foreach ($data['selected_products'] as $index => $productId) {
+            $quantity = $data['quantity'][$index];
+            if($quantity==0){
+                $message = 'Product quantity must 1 or more';
+                return redirect('cart')->with('error_message', $message);
+            }
+
+            $getCartItems=Cart::where('user_id',Auth::user()->id)->where('product_id', $productId)->first();
+            $cartTemp=new ProductSelected();
+            $cartTemp->session_id=$getCartItems['session_id'];
+            $cartTemp->user_id=Auth::user()->id;
+            $cartTemp->product_id=$productId;
+            $cartTemp->size=$getCartItems['size'];
+            $cartTemp->quantity=$quantity;
+            $cartTemp->save();
+        }
+        return redirect()->to('/checkout');
+    }
     // Checkout page (using match() method for the 'GET' request for rendering the front/products/checkout.blade.php page or the 'POST' request for the HTML Form submission in the same page) (for submitting the user's Delivery Address and Payment Method))
-    public function checkout(Request $request) {
+    public function checkout(Request $request)
+    {
+        //26 nov 2024
+        // Ambil data produk yang dipilih
+
+        //     $selectedProducts = $request->input('selected_products'); // Array berisi ID produk yang dicentang
+        //     $quantities = $request->input('quantity'); // Array berisi jumlah (kuantitas) produk
+
+        //     $request->validate([
+        //         'selected_products' => 'required|array',
+        //         'selected_products.*' => 'integer|exists:products,id', // Pastikan ID produk valid
+        //         'quantity' => 'required|array',
+        //         'quantity.*' => 'integer|min:1' // Kuantitas minimal 1
+        //     ]);
+
+        //     // Proses setiap produk yang dipilih
+        //     // for($i=0,$i>count($selectedProducts) , $i++)
+
+        //     foreach ($selectedProducts as $index => $productId) {
+        //         $jumlahBarang = $quantities[$index];
+
+        //         // Cari item di keranjang berdasarkan ID produk
+        //         $barang = Cart::where('product_id', $productId)->first();
+
+        //         $barang -> quantity = $jumlahBarang;
+        //         $barang->save();
+
+        //         // $barang= DB::select('products')->where('')
+
+        //         // select from products where ... == ....
+
+        //     }
+        //    die;
+
+        //end 26 nov 2024
+
         // Fetch all of the world countries from the database table `countries`
+        session()->reflash();
+
         $countries = Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 (to ignore the blacklisted countries, in case)
 
         // Get the Cart Items of a cerain user (using their `user_id` if they're authenticated/logged in or their `session_id` if they're not authenticated/not logged in (guest))
-        $getCartItems = Cart::getCartItems();
+        //$checkedItems = $request->input('checkedItems'); // Item yang dipilih (dari request)
+       // $checkedItems = $request->input('selectedItems'); // Item yang dipilih (dari request
+        //$userId= Auth::user()->id;
+        // Decode JSON input to PHP array
+        // $checkedItems = json_decode($request->input('selectedItems'), true);
+
+// Extract IDs from selected items
+
+
+// Get cart items filtered by selected IDs
+
+
+// Debug result
+
+
+        /* $getCartItems = Cart::getCartItems();       // semua item di cart
+        //dd($getCartItems);             // mengeluarkan produk yg akan melakukan checkout
+        $decodedData = $checkedItems;
+
+        $modifiedData = [];
+
+        foreach ($decodedData as $key => $item) {
+            $productId = $item['id']; // Mengakses nilai 'id' dari setiap item
+
+            // Lakukan sesuatu dengan $productId
+            $getCartItems=Cart::where('user_id',$userId)->where('product_id', $productId)->first();
+
+
+            $modifiedData[] = [
+                'id' => $key + 1,  // Set ID sesuai urutan, atau bisa menggunakan ID produk asli
+                'session_id' => $getCartItems['session_id'],  // Misalnya session ID
+                'user_id' => $getCartItems['user_id'],  // ID user yang relevan, bisa didapat dari autentikasi
+                'product_id' => $item['id'],  // Mengambil ID produk dari item
+                'quantity' => $item['quantity'],  // Kuantitas produk
+                'created_at' => now(),  // Timestamp saat ini
+                'updated_at' => now(),  // Timestamp saat ini (bisa disesuaikan)
+                'subtotal' => $item['subtotal'],
+                'product' => [
+                    'id' => $item['id'],
+                    'name' => $item['name'],
+                    'code' => $item['code'],  // Fungsi untuk mengambil code dari nama produk
+                    'size' => $item['size'],  // Fungsi untuk mengambil ukuran dari nama produk
+                    'color' => $item['color'],  // Fungsi untuk mengambil warna dari nama produk
+                    'price' => $item['price'],
+                    ]
+            ];
+        }
 
         // If the Cart is empty (If there're no Cart Items), don't allow opening/accessing the Checkout page (checkout.blade.php)
-        if (count($getCartItems) == 0) {
-            $message = 'Shopping Cart is empty! Please add products to your Cart to checkout';
+        if (count($checkedItems) == 0) {
+            $message = 'Check Items Shopping Cart is empty! Please add products to your Cart or select product to checkout';
 
             return redirect('cart')->with('error_message', $message); // redirect user to the cart.blade.php page, and show an error message in cart.blade.php
         }
 
+        // Gunakan `checkedItems` jika ada, jika tidak, gunakan `getCartItems`
+        // $itemsToProcess = !empty($checkedItems) ? $checkedItems : $getCartItems;
+
+        // Validasi jika `checkedItems` kosong tetapi ada di request
+        if (!empty($checkedItems) && count($checkedItems) == 0) {
+            $message = 'No products selected! Please select products to checkout.';
+            return redirect('cart')->with('error_message', $message);
+        } */
 
         // Calculate the total price
+        $getCartItems=ProductSelected::where('user_id',Auth::user()->id)->get();
+
+
         $total_price  = 0;
         $total_weight = 0;
 
         foreach ($getCartItems as $item) {
-            $attrPrice = Product::getDiscountAttributePrice($item['product_id'], $item['size']);
-            $total_price = $total_price + ($attrPrice['final_price'] * $item['quantity']);
+            $productId = $item['product_id']; // Mengakses nilai 'id' dari setiap item
+
+            $productWeight=Product::select('product_weight')->where('id',$productId)->first();
 
 
-            $product_weight = $item['product']['product_weight'];
-            $total_weight = $total_weight + $product_weight;
+            $attrPrice = Product::getDiscountAttributePrice($productId, $item['size']);
+            // $total_price = $total_price + ($attrPrice['final_price'] * $item['quantity']);
+            $total_price = $attrPrice['final_price'] * $item['quantity'];
+            // $product_weight = $item['product']['product_weight'];
+            $total_weight += $productWeight['product_weight'];
+            // $total_weight = $total_weight + $product_weight;
         }
 
 
         $deliveryAddresses = DeliveryAddress::deliveryAddresses(); // the delivery addresses of the currently authenticated/logged in user
 
+        $addressId= $deliveryAddresses[0]['id'];
 
         // Calculating the Shipping Charges of every one of the user's Delivery Addresses (depending on the 'country' of the Delivery Address)
-        foreach ($deliveryAddresses as $key => $value) {
-            $shippingCharges = ShippingCharge::getShippingCharges($total_weight, $value['country']);
+        // foreach ($deliveryAddresses as $key => $value) {
+        //     $shippingCharges = ShippingCharge::getShippingCharges($total_weight, $value['country']);
 
-            // Append/Add the Shipping Charge of every Delivery Address (depending on the 'country' of the Delivery Addresss) to the $deliveryAddresses array
-            $deliveryAddresses[$key]['shipping_charges'] = $shippingCharges;
+        //     // Append/Add the Shipping Charge of every Delivery Address (depending on the 'country' of the Delivery Addresss) to the $deliveryAddresses array
+        //     $deliveryAddresses[$key]['shipping_charges'] = $shippingCharges;
 
-            // Checking PIN code availability of BOTH COD and Prepaid PIN codes in BOTH `cod_pincodes` and `prepaid_pincodes` tables
-            // Check if the COD PIN code of that Delivery Address of the user exists in `cod_pincodes` table
-            $deliveryAddresses[$key]['codpincodeCount'] = DB::table('cod_pincodes')->where('pincode', $value['pincode'])->count(); // Note that    $value['pincode']    denotes the `pincode` of the `delivery_addresses` table
+        //     // Checking PIN code availability of BOTH COD and Prepaid PIN codes in BOTH `cod_pincodes` and `prepaid_pincodes` tables
+        //     // Check if the COD PIN code of that Delivery Address of the user exists in `cod_pincodes` table
+        //     $deliveryAddresses[$key]['codpincodeCount'] = DB::table('cod_pincodes')->where('pincode', $value['pincode'])->count(); // Note that    $value['pincode']    denotes the `pincode` of the `delivery_addresses` table
 
-            // Check if the Prepaid PIN code of that Delivery Address of the user exists in `prepaid_pincodes` table
-            $deliveryAddresses[$key]['prepaidpincodeCount'] = DB::table('prepaid_pincodes')->where('pincode', $value['pincode'])->count(); // Note that    $value['pincode']    denotes the `pincode` of the `delivery_addresses` table
-        }
+        //     // Check if the Prepaid PIN code of that Delivery Address of the user exists in `prepaid_pincodes` table
+        //     $deliveryAddresses[$key]['prepaidpincodeCount'] = DB::table('prepaid_pincodes')->where('pincode', $value['pincode'])->count(); // Note that    $value['pincode']    denotes the `pincode` of the `delivery_addresses` table
+        // }
 
 
 
@@ -950,16 +1151,16 @@ class ProductsController extends Controller
             }
 
             // Note: We also prevent making orders of the products of the Categories that are disabled (`status` = 0) (whether the Category is a Child Category or a Parent Category (Root Category) is disabled) in admin/categories/categories.blade.php
-            $getCategoryStatus = Category::getCategoryStatus($item['product']['category_id']);
-            if ($getCategoryStatus == 0) { // if the Category is disabled (`status` = 0)
-                $message = $item['product']['product_name'] . ' with ' . $item['size'] . ' size is not available. Please remove it from the Cart and choose another product.';
-                return redirect('/cart')->with('error_message', $message); // Redirect to the Cart page with an error message
-            }
+            // $getCategoryStatus = Category::getCategoryStatus($item['product']['category_id']);
+            // if ($getCategoryStatus == 0) { // if the Category is disabled (`status` = 0)
+            // $message = $item['product']['product_name'] . ' with ' . $item['size'] . ' size is not available. Please remove it from the Cart and choose another product.';
+            // return redirect('/cart')->with('error_message', $message); // Redirect to the Cart page with an error message
+            // }
 
 
             // Validation:
             // Delivery Address Validation
-            if (empty($data['address_id'])) { // if the user doesn't select a Delivery Address
+            if (empty($addressId)) { // if the user doesn't select a Delivery Address
                 $message = 'Please select Delivery Address!';
 
                 return redirect()->back()->with('error_message', $message);
@@ -990,7 +1191,7 @@ class ProductsController extends Controller
             // Now, we'll collect the necessary data to fill in the `orders` and `orders_products` database tables
 
             // Get the Delivery Address from    $data['address_id']
-            $deliveryAddress = DeliveryAddress::where('id', $data['address_id'])->first()->toArray();
+            $deliveryAddress = DeliveryAddress::where('id', $addressId)->first()->toArray();
             // dd($deliveryAddress);
 
 
@@ -998,7 +1199,6 @@ class ProductsController extends Controller
             if ($data['payment_gateway'] == 'COD') {
                 $payment_method = 'COD';
                 $order_status   = 'New';
-
             } else { // if the user selects any `payment_gateway` other than 'COD', this means that the `payment_method` is 'prepaid'  (and `order_status` is 'pending')
                 $payment_method = 'Prepaid';
                 $order_status   = 'Pending'; // And after payment confirmation, `order_status` becomes 'Payment Captured'. (We'll create the API that will convert this to either 'Payment Captured' or 'Canceled')
@@ -1022,7 +1222,9 @@ class ProductsController extends Controller
             $shipping_charges = 0;
 
             // Get the Shipping Charge based on the chosen Delivery Address
-            $shipping_charges = ShippingCharge::getShippingCharges($total_weight, $deliveryAddress['country']);
+            $shipping_charges = ShippingCharge::getShippingCharges($total_weight);
+            $shipping_charges = 10000;
+
 
             // Grand Total (`grand_total`)
             $grand_total = $total_price + $shipping_charges - Session::get('couponAmount');
@@ -1080,10 +1282,10 @@ class ProductsController extends Controller
                 }
 
                 $cartItem->product_id      = $item['product_id'];
-                $cartItem->product_code    = $getProductDetails['product_code'];
                 $cartItem->product_name    = $getProductDetails['product_name'];
-                $cartItem->product_color   = $getProductDetails['product_color'];
+                $cartItem->product_code    = $getProductDetails['product_code'];
                 $cartItem->product_size    = $item['size'];
+                $cartItem->product_color   = $getProductDetails['product_color'];
 
                 $getDiscountAttributePrice = Product::getDiscountAttributePrice($item['product_id'], $item['size']); // from the `products_attributes` table, not the `products` table
                 $cartItem->product_price   = $getDiscountAttributePrice['final_price'];
@@ -1164,7 +1366,6 @@ class ProductsController extends Controller
             } elseif ($data['payment_gateway'] == 'iyzipay') {
                 // redirect the user to the IyzipayController.php (after saving the order details in `orders` and `orders_products` tables)
                 return redirect('/iyzipay');
-
             } else { // if the `payment_gateway` selected by the user is not 'COD', meaning it's like PayPal, Prepaid, ... (in front/products/checkout.blade.php), we send the placing the order confirmation email and SMS after the user makes the payment
                 echo 'Other Prepaid payment methods coming soon';
             }
@@ -1173,14 +1374,27 @@ class ProductsController extends Controller
             return redirect('thanks'); // redirect to front/products/thanks.blade.php page
         }
 
+        /* //ambil id dari produk yang checkbox == checked
+        $productIds = array_map(function($item) {
+            return $item['product']['id'];  // Mengambil 'id' dari sub-array 'product'
+        }, $modifiedData); //  $modifiedData tempat penampung data checkbox
+        //end ambil id dari produk yang checkbox == checked
 
+        // Mengambil produk berdasarkan ID yang checkbox==checked
+        $getCartItems = Cart::whereIn('product_id', $productIds)->where('user_id',$userId)->get()->toArray();
+        //dd($getCartItems);
+        // end Mengambil produk berdasarkan ID yang checkbox==checked */
+
+
+               // semua item di cart
         return view('front.products.checkout')->with(compact('deliveryAddresses', 'countries', 'getCartItems', 'total_price'));
     }
 
 
 
     // Rendering Thanks page (after placing an order)
-    public function thanks() {
+    public function thanks()
+    {
         if (Session::has('order_id')) { // if there's an order has been placed, empty the Cart (remove the order (the cart items/products) from `carts`table)    // 'user_id' was stored in Session inside checkout() method in Front/ProductsController.php
             // We empty the Cart after placing the order
             Cart::where('user_id', Auth::user()->id)->delete(); // Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
@@ -1195,7 +1409,8 @@ class ProductsController extends Controller
 
 
     // PIN code Availability Check: check if the PIN code of the user's Delivery Address exists in our database (in both `cod_pincodes` and `prepaid_pincodes`) or not in front/products/detail.blade.php via AJAX. Check front/js/custom.js
-    public function checkPincode(Request $request) {
+    public function checkPincode(Request $request)
+    {
         if ($request->ajax()) { // if the request is coming via an AJAX call
             $data = $request->all(); // Getting the name/value pairs array that are sent from the AJAX request (AJAX call)
 
@@ -1215,5 +1430,4 @@ class ProductsController extends Controller
             }
         }
     }
-
 }

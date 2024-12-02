@@ -129,7 +129,7 @@
 
             <li class="nav-item">
                 <a @if (Session::get('page') == 'ratings') style="background: #052CA3 !important; color: #FFF !important" @endif class="nav-link" data-toggle="collapse" href="#ui-ratings" aria-expanded="false" aria-controls="ui-ratings">
-                    <i class="icon-layout menu-icon"></i>
+                    <i class="icon-star menu-icon"></i>
                     <span class="menu-title">Ratings Management</span>
                     <i class="menu-arrow"></i>
                 </a>

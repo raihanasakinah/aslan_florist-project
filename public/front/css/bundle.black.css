@@ -1406,7 +1406,7 @@ body {
 
 /* Sub-component-2 */
 .sec-maker-h3 {
-  font-size: 19px;
+  font-size: 29px;
   font-weight: 700;
   margin-bottom: 15px;
   text-transform: uppercase;
@@ -1688,7 +1688,7 @@ body {
   background-color: #ffffff;
   padding: 35px 0; }
   .full-layer-mid-header .row {
-    position: relative; }
+    position: sticky; }
 
 .brand-logo a {
   display: inline-block;

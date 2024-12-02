@@ -35,13 +35,14 @@ class AddressController extends Controller
 
     // Save Delivery Addresses via AJAX (save the delivery addresses of the authenticated/logged-in user in `delivery_addresses` database table when submitting the HTML Form) in front/products/delivery_addresses.blade.php (which is 'include'-ed in front/products/checkout.blade.php) via AJAX, check front/js/custom.js
     public function saveDeliveryAddress(Request $request) {
-        // dd($request);
+
+        //  dd($request->all());
         if ($request->ajax()) { // if the request is coming via an AJAX call
             // Validation
             // Manually Creating Validators: https://laravel.com/docs/9.x/validation#manually-creating-validators
             $validator = \Illuminate\Support\Facades\Validator::make($request->all(), [
                 'delivery_name'    => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
-                // 'delivery_address' => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
+                'delivery_address' => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
                 'delivery_city'    => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
                 // 'delivery_state'   => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
                 // 'delivery_country' => 'required|string|max:100',   // string: https://laravel.com/docs/9.x/validation#rule-string    // max:value: https://laravel.com/docs/9.x/validation#rule-max
@@ -59,7 +60,7 @@ class AddressController extends Controller
                 // We add the `delivery_addresses` table column names to the array in order to be able to UPDATE (Edit) or INSERT INTO (Add) the `delivery_addresses` table using the $address variable:
                 $address['user_id'] = Auth::user()->id; // Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
                 $address['name']    = $data['delivery_name'];
-                // $address['address'] = $data['delivery_address'];
+                $address['address'] = $data['delivery_address'];
                 $address['city']    = $data['delivery_city'];
                 // $address['state']   = $data['delivery_state'];
                 // $address['country'] = $data['delivery_country'];
@@ -83,19 +84,23 @@ class AddressController extends Controller
                 $deliveryAddresses = DeliveryAddress::deliveryAddresses(); // Get all the delivery addresses of the currently authenticated/logged-in user
 
                 // Fetch all of the world countries from the database table `countries`
-                $countries = Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 (to ignore the blacklisted countries, in case)
+                // $countries = Country::where('status', 1)->get()->toArray(); // get the countries which have status = 1 (to ignore the blacklisted countries, in case)
                 // dd($countries);
 
+                session()->reflash();
 
                 return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
                     // Note: You must pass in to view the SAME variables ($deliveryAddresses and $countries) that were passed in to it in checkout() method in Front/ProductsController.php
-                    'view' => (string) \Illuminate\Support\Facades\View::make('front.products.delivery_addresses')->with(compact('deliveryAddresses', 'countries')) // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
+                    'view' => (string) \Illuminate\Support\Facades\View::make('front.products.delivery_addresses')->with(compact('deliveryAddresses'))
+                    // 'view' => (string) \Illuminate\Support\Facades\View::make('front.products.delivery_addresses')->with(compact('deliveryAddresses', 'countries'))
+                    // View Responses: https://laravel.com/docs/9.x/responses#view-responses    // Creating & Rendering Views: https://laravel.com/docs/9.x/views#creating-and-rendering-views    // Passing Data To Views: https://laravel.com/docs/9.x/views#passing-data-to-views
                 ]);
 
             } else { // if the user fails validation, return an error message
                 // Working With Error Messages: https://laravel.com/docs/9.x/validation#working-with-error-messages
                 // dd($validator->messages());
                                 // dd($request['delivery_name']);
+                session()->reflash();
 
                 return response()->json([ // JSON Responses: https://laravel.com/docs/9.x/responses#json-responses
                     'type'   => 'error',

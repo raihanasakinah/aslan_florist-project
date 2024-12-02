@@ -583,6 +583,7 @@ pre code {
   flex-wrap: wrap;
   margin-right: -15px;
   margin-left: -15px;
+  /* justify-content: center; */
 }
 
 .no-gutters {
@@ -4219,6 +4220,7 @@ input[type="button"].btn-block {
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
+
 }
 
 .nav-link {
@@ -4308,7 +4310,8 @@ input[type="button"].btn-block {
 }
 
 .navbar {
-  position: relative;
+  position: sticky;
+  top:0;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;

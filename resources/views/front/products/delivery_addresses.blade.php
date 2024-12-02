@@ -25,7 +25,7 @@
 
 
             <input type="hidden" name="delivery_id"> {{-- We created this hidden <input> field to submit the delivery address id when this HTML Form is submitted via AJAX to save the delivery address in the `delivery_addresses` database table. Check the Save Delivery Addresses via AJAX function in front/js/custom.js file --}}
-            <div class="group-inline u-s-m-b-13">
+            {{-- <div class="group-inline u-s-m-b-13"> --}}
                 <div class="group-1 u-s-p-r-16">
                     <label for="delivery_name">Name
                         <span class="astk">*</span>
@@ -33,14 +33,16 @@
                     <input class="text-field" type="text" id="delivery_name" name="delivery_name">
                     <p id="delivery-delivery_name"></p>                         {{-- This <p> tag will be used by jQuery to show the Validation Error Messages (Laravel's Validation Error Messages) from the AJAX call response from the server (backend) --}} {{-- We structure and use a certain pattern so that the <p> id pattern must be like: delivery-x (e.g. delivery-mobile, delivery-email, ... in order for the jQuery loop to work. And x must be identical to the 'name' HTML attributes (e.g. the <input> with the    name='mobile'    HTML attribute must have a <p> with an id HTML attribute    id="delivery-mobile"    ) so that when the vaildation errors array is sent as a response from backend/server (check $validator->messages()    inside    the method inside the controller) to the AJAX request, they could conveniently/easily be handled by the jQuery $.each() loop. Check front/js/custom.js) --}}
                 </div>
-                {{-- <div class="group-2">
+                {{-- <div class="group-2"> --}}
+                <div class="u-s-m-b-13">
                     <label for="delivery_address">Address
                         <span class="astk">*</span>
                     </label>
                     <input class="text-field" type="text" id="delivery_address" name="delivery_address">
-                    <p id="delivery-delivery_address"></p>                                This <p> tag will be used by jQuery to show the Validation Error Messages (Laravel's Validation Error Messages) from the AJAX call response from the server (backend) We structure and use a certain pattern so that the <p> id pattern must be like: delivery-x (e.g. delivery-mobile, delivery-email, ... in order for the jQuery loop to work. And x must be identical to the 'name' HTML attributes (e.g. the <input> with the    name='mobile'    HTML attribute must have a <p> with an id HTML attribute    id="delivery-mobile"    ) so that when the vaildation errors array is sent as a response from backend/server (check $validator->messages()    inside    the method inside the controller) to the AJAX request, they could conveniently/easily be handled by the jQuery $.each() loop. Check front/js/custom.js) --}}
-                {{-- </div> --}}
-            </div>
+                    <p id="delivery-delivery_address"></p>
+                    {{-- This <p> tag will be used by jQuery to show the Validation Error Messages (Laravel's Validation Error Messages) from the AJAX call response from the server (backend) We structure and use a certain pattern so that the <p> id pattern must be like: delivery-x (e.g. delivery-mobile, delivery-email, ... in order for the jQuery loop to work. And x must be identical to the 'name' HTML attributes (e.g. the <input> with the    name='mobile'    HTML attribute must have a <p> with an id HTML attribute    id="delivery-mobile"    ) so that when the vaildation errors array is sent as a response from backend/server (check $validator->messages()    inside    the method inside the controller) to the AJAX request, they could conveniently/easily be handled by the jQuery $.each() loop. Check front/js/custom.js) --}}
+                 </div>
+            {{-- </div> --}}
             <div class="group-inline u-s-m-b-13">
                 <div class="group-1 u-s-p-r-16">
                     <label for="delivery_city">City
@@ -88,7 +90,8 @@
                 <p id="delivery-delivery_mobile"></p>                       {{-- This <p> tag will be used by jQuery to show the Validation Error Messages (Laravel's Validation Error Messages) from the AJAX call response from the server (backend) --}} {{-- We structure and use a certain pattern so that the <p> id pattern must be like: delivery-x (e.g. delivery-mobile, delivery-email, ... in order for the jQuery loop to work. And x must be identical to the 'name' HTML attributes (e.g. the <input> with the    name='mobile'    HTML attribute must have a <p> with an id HTML attribute    id="delivery-mobile"    ) so that when the vaildation errors array is sent as a response from backend/server (check $validator->messages()    inside    the method inside the controller) to the AJAX request, they could conveniently/easily be handled by the jQuery $.each() loop. Check front/js/custom.js) --}}
             </div>
             <div class="u-s-m-b-13">
-                <button style="width: 100%" type="submit" class="button button-outline-secondary">Save</button> {{-- Save whether it's Add or Edit --}}
+                {{-- <button style="width: 100%" type="submit" class="button button-outline-secondary">Save</button> Save whether it's Add or Edit --}}
+                <button style="width: 100%" type="submit" class="btn btn-secondary">Save</button>
             </div>
 
         </form>

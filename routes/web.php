@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Front\ProductController;
+use App\Http\Controllers\Front\ProductsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -277,6 +279,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
 
         // Checkout page (using match() method for the 'GET' request for rendering the front/products/checkout.blade.php page or the 'POST' request for the HTML Form submission in the same page (for submitting the user's Delivery Address and Payment Method))
         Route::match(['GET', 'POST'], '/checkout', 'ProductsController@checkout');
+        Route::post('/checkout-temp',[ProductsController::class,'productSelected']);
+
+        // Definisikan route POST dengan nama 'checkout'
 
         // Edit Delivery Addresses (Page refresh and fill in the <input> fields with the authenticated/logged in user Delivery Addresses from the `delivery_addresses` database table when clicking on the Edit button) in front/products/delivery_addresses.blade.php (which is 'include'-ed in front/products/checkout.blade.php) via AJAX, check front/js/custom.js
         Route::post('get-delivery-address', 'AddressController@getDeliveryAddress');

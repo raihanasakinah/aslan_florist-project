@@ -14,16 +14,17 @@ $sections = \App\Models\Section::sections();
             <nav>
                 <ul class="primary-nav g-nav">
                     <li>
-                        <a href="tel:+201255845857">
-                        <i class="fas fa-phone u-c-brand u-s-m-r-9"></i>
-                        Telp: +201255845857</a>
+                        <a href="/">
+                            <img src="{{ asset('front/images/main-logo/main-logo.png') }}" alt="Multi-vendor E-commerce Application" style="height: 50px;">
+                            {{-- <img src="public/images/main-logo.png" alt="Logo Aslan Florist" style="height: 50px;"> --}}
+                        </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="mailto:info@multi-vendore-commerce.com">
                         <i class="fas fa-envelope u-c-brand u-s-m-r-9"></i>
                         Instagram : aslan.florist_
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
             </nav>
             <nav>
@@ -45,12 +46,12 @@ $sections = \App\Models\Section::sections();
                         <ul class="g-dropdown" style="width:200px">
                             <li>
                                 <a href="{{ url('cart') }}">
-                                <i class="fas fa-cog u-s-m-r-9"></i>
+                                <i class=" fa fa-shopping-cart u-s-m-r-9"></i>
                                 My Cart</a>
                             </li>
                             <li>
                                 <a href="{{ url('checkout') }}">
-                                <i class="far fa-check-circle u-s-m-r-9"></i>
+                                <i class="fas fa-money-bill u-s-m-r-9"></i>
                                 Checkout</a>
                             </li>
 
@@ -60,7 +61,7 @@ $sections = \App\Models\Section::sections();
                             @if (\Illuminate\Support\Facades\Auth::check()) {{-- Determining If The Current User Is Authenticated: https://laravel.com/docs/9.x/authentication#determining-if-the-current-user-is-authenticated --}}
                                 <li>
                                     <a href="{{ url('user/account') }}">
-                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        <i class="fas fa-user-alt u-s-m-r-9"></i>
                                         My Account
                                     </a>
                                 </li>
@@ -68,7 +69,7 @@ $sections = \App\Models\Section::sections();
 
                                 <li>
                                     <a href="{{ url('user/orders') }}">
-                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        <i class="fas fa-check-circle u-s-m-r-9"></i>
                                         My Orders
                                     </a>
                                 </li>
@@ -136,11 +137,11 @@ $sections = \App\Models\Section::sections();
                     <div class="brand-logo text-lg-center">
 
 
-                        <a href="{{ url('/') }}">
+                        {{-- <a href="{{ url('/') }}">
 
 
                             <img src="{{ asset('front/images/main-logo/main-logo.png') }}" alt="Multi-vendor E-commerce Application" class="app-brand-logo">
-                        </a>
+                        </a> --}}
                     </div>
                 </div>
                 <div class="col-lg-6 u-d-none-lg">
@@ -348,3 +349,5 @@ $sections = \App\Models\Section::sections();
     <!-- Bottom-Header /- -->
 </header>
 <!-- Header /- -->
+
+

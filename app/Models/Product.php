@@ -74,10 +74,27 @@ class Product extends Model
 
     public static function getDiscountAttributePrice($product_id, $size) { // this method is called (used) in front/products/detail.blade.php and cart_items.blade.php and in applyCoupon() method in Front/ProudctsController.php
         // Get that product attributes from `products_attributes` table which has that specific `product_id` and `size`
-        $proAttrPrice = \App\Models\ProductsAttribute::where([ // from `products_attributes` table
-            'product_id' => $product_id,
-            'size'       => $size
-        ])->first()->toArray();
+
+
+        // $proAttrPrice = \App\Models\ProductsAttribute::where([ // from `products_attributes` table
+        //     'product_id' => $product_id,
+        //     'size'       => $size
+        // ])->first();
+       // dd($product_id,$size);
+
+       $price = ProductsAttribute::where('product_id', $product_id)
+            ->where('size', $size)
+            ->value('price'); // Mengambil nilai dari kolom 'price'
+
+
+
+
+
+
+
+    
+
+
 
         // Get the product DISCOUNT and CATEGORY ID of that product
         $proDetails = Product::select('product_discount', 'category_id')->where('id', $product_id)->first();
@@ -89,23 +106,23 @@ class Product extends Model
 
         if ($proDetails['product_discount'] > 0) { // if there's a 'product_discount' (in `products` table) (i.e. discount is not zero 0)
             // if there's a PRODUCT discount on the product itself
-            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price'] * $proDetails['product_discount'] / 100);
-            $discount = $proAttrPrice['price'] - $final_price; // the discount value = original price - price after discount
+            $final_price = $price - ($price * $proDetails['product_discount'] / 100);
+            $discount = $price - $final_price; // the discount value = original price - price after discount
 
         } else if ($catDetails['category_discount'] > 0) { // if there's a `category_discount` (in `categories` table) (i.e. discount is not zero 0) (if there's a discount on the whole category of that product)
             // if there's NO a PRODUCT discount, but there's a CATEGORY discount
-            $final_price = $proAttrPrice['price'] - ($proAttrPrice['price'] * $catDetails['category_discount'] / 100);
-            $discount = $proAttrPrice['price'] - $final_price; // the discount value = original price - price after discount
+            $final_price = $price - ($price * $catDetails['category_discount'] / 100);
+            $discount = $price - $final_price; // the discount value = original price - price after discount
 
         // Note: Didn't ACCOUNT FOR presence of discounts of BOTH `product_discount` (in `products` table) AND `category_discount` (in `categories` table) AT THE SAME TIME!!
         } else { // there's no discount on neither `product_discount` (in `products` table) nor `category_discount` (in `categories` table)
-            $final_price = $proAttrPrice['price'];
+            $final_price = $price;
             $discount = 0;
         }
 
 
         return array(
-            'product_price' => $proAttrPrice['price'], // the original price of that `product_id` and `size` in `products_attributes` table
+            'product_price' => $price, // the original price of that `product_id` and `size` in `products_attributes` table
             'final_price'   => $final_price,           // the price of that `product_id` and `size` in `products_attributes` table after deducting the discount (of either `product_discount` (in `products` table) or `category_discount` (in `categories` table))
             'discount'      => $discount               // the value of the discount (if any)
         );

@@ -28,7 +28,7 @@ class IndexController extends Controller
 
 
         // Static SEO (HTML meta tags): Check the HTML <meta> tags and <title> tag in front/layout/layout.blade.php
-        $meta_title       = 'Aslan FLorist';
+        $meta_title       = 'Aslan Florist';
         $meta_description = 'Online Shopping Website which deals in Clothing, Electronics & Appliances Products';
         $meta_keywords    = 'eshop website, online shopping, multi vendor e-commerce';
 

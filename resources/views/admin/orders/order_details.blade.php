@@ -8,7 +8,7 @@
         <div class="content-wrapper">
 
 
-            {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}    
+            {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}
             {{-- Determining If An Item Exists In The Session (using has() method): https://laravel.com/docs/9.x/session#determining-if-an-item-exists-in-the-session --}}
             @if (Session::has('error_message')) <!-- Check AdminController.php, updateAdminPassword() method -->
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -21,7 +21,7 @@
 
 
 
-            {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}    
+            {{-- Displaying Laravel Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors --}}
             @if ($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     {{-- <strong>Error:</strong> {{ Session::get('error_message') }} --}}
@@ -37,7 +37,7 @@
             @endif
 
 
-            {{-- Displaying The Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors AND https://laravel.com/docs/9.x/blade#validation-errors --}} 
+            {{-- Displaying The Validation Errors: https://laravel.com/docs/9.x/validation#quick-displaying-the-validation-errors AND https://laravel.com/docs/9.x/blade#validation-errors --}}
             {{-- Determining If An Item Exists In The Session (using has() method): https://laravel.com/docs/9.x/session#determining-if-an-item-exists-in-the-session --}}
             {{-- Our Bootstrap success message in case of updating admin password is successful: --}}
             {{-- Displaying Success Message --}}
@@ -96,11 +96,11 @@
                             </div>
                             <div class="form-group" style="height: 15px">
                                 <label style="font-weight: 550">Order Total: </label>
-                                <label>EGP{{ $orderDetails['grand_total'] }}</label>
+                                <label>Rp {{ $orderDetails['grand_total'] }}</label>
                             </div>
                             <div class="form-group" style="height: 15px">
                                 <label style="font-weight: 550">Shipping Charges: </label>
-                                <label>EGP{{ $orderDetails['shipping_charges'] }}</label>
+                                <label>Rp {{ $orderDetails['shipping_charges'] }}</label>
                             </div>
 
                             @if (!empty($orderDetails['coupon_code']))
@@ -110,8 +110,8 @@
                                 </div>
                                 <div class="form-group" style="height: 15px">
                                     <label style="font-weight: 550">Coupon Amount: </label>
-                                    <label>EGP{{ $orderDetails['coupon_amount'] }}</label>
-                                </div>                                
+                                    <label>Rp {{ $orderDetails['coupon_amount'] }}</label>
+                                </div>
                             @endif
 
                             <div class="form-group" style="height: 15px">
@@ -154,14 +154,14 @@
                                     <label>{{ $userDetails['state'] }}</label>
                                 </div>
                             @endif
-                            
+
                             @if (!empty($userDetails['country']))
                                 <div class="form-group" style="height: 15px">
                                     <label style="font-weight: 550">Country: </label>
                                     <label>{{ $userDetails['country'] }}</label>
                                 </div>
                             @endif
-                            
+
                             @if (!empty($userDetails['pincode']))
                                 <div class="form-group" style="height: 15px">
                                     <label style="font-weight: 550">Pincode: </label>
@@ -209,14 +209,14 @@
                                     <label>{{ $orderDetails['state'] }}</label>
                                 </div>
                             @endif
-                            
+
                             @if (!empty($orderDetails['country']))
                                 <div class="form-group" style="height: 15px">
                                     <label style="font-weight: 550">Country: </label>
                                     <label>{{ $orderDetails['country'] }}</label>
                                 </div>
                             @endif
-                            
+
                             @if (!empty($orderDetails['pincode']))
                                 <div class="form-group" style="height: 15px">
                                     <label style="font-weight: 550">Pincode: </label>
@@ -236,9 +236,9 @@
                         <div class="card-body">
                             <h4 class="card-title">Update Order Status</h4>  {{-- determined by 'admin'-s ONLY, not 'vendor'-s --}}
 
-                            {{-- Allowing the general "Update Order Status" feature for 'admin'-s ONLY, and restricting it from 'vendor'-s ('vendor'-s can update their Ordered Products item statuses ONLY (at this page bottom)) --}} 
+                            {{-- Allowing the general "Update Order Status" feature for 'admin'-s ONLY, and restricting it from 'vendor'-s ('vendor'-s can update their Ordered Products item statuses ONLY (at this page bottom)) --}}
                             @if (Auth::guard('admin')->user()->type != 'vendor') {{-- If the authenticated/logged-in user is 'admin', allow "Update Order Status" feature --}} {{-- Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances --}} {{-- Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user --}}
-                                
+
                                 {{-- Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc. --}}
                                 <form action="{{ url('admin/update-order-status') }}" method="post">  {{-- determined by 'admin'-s ONLY, not 'vendor'-s. This is in contrast to 'Order Item Status' which can be updated by both 'vendor'-s and 'admin'-s --}}
                                     @csrf {{-- Preventing CSRF Requests: https://laravel.com/docs/9.x/csrf#preventing-csrf-requests --}}
@@ -312,7 +312,7 @@
                     </div>
                 </div>
 
-                
+
                 <div class="col-md-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
@@ -327,21 +327,21 @@
                                         <th>Name</th>
                                         <th>Size</th>
                                         <th>Color</th>
-                                        <th>Unit Price</th> 
+                                        <th>Unit Price</th>
                                         <th>Product Qty</th>
-                                        <th>Total Price</th> 
+                                        <th>Total Price</th>
 
-                                        
+
                                         @if (\Illuminate\Support\Facades\Auth::guard('admin')->user()->type != 'vendor') {{-- If the authenticated/logged-in user is an 'admin', 'superadmin' or 'subadmin', NOT 'vendor' --}} {{-- Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances --}}
                                             <th>Product by</th>
                                         @endif
 
-                                        
-                                        
+
+
                                         <th>Commission</th> {{-- Vendor's Commission percentage must be paid on every product sold to the Website Owner --}}
                                         <th>Final Amount</th> {{-- Vendor's profit after paying (deducting) the Commission percentage --}}
 
-                                        <th>Item Status</th> {{-- can be updated by both 'vendor'-s and 'admin'-s. This is in contrast to 'Update Order Status' which can be updated by 'admin'-s ONLY --}} 
+                                        <th>Item Status</th> {{-- can be updated by both 'vendor'-s and 'admin'-s. This is in contrast to 'Update Order Status' which can be updated by 'admin'-s ONLY --}}
                                         {{-- Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc. --}}
                                     </tr>
 
@@ -360,25 +360,25 @@
                                             <td>{{ $product['product_name'] }}</td>
                                             <td>{{ $product['product_size'] }}</td>
                                             <td>{{ $product['product_color'] }}</td>
-                                            <td>{{ $product['product_price'] }}</td> 
+                                            <td>{{ $product['product_price'] }}</td>
                                             <td>{{ $product['product_qty'] }}</td>
                                             <td>
-                                                
+
                                                 @if ($product['vendor_id'] > 0) {{-- if the product belongs to a 'vendor', not 'admin' --}}
 
-                                                    
+
                                                     @if ($orderDetails['coupon_amount'] > 0) {{-- If there's a Coupon Code used --}}
 
                                                         @if (\App\Models\Coupon::couponDetails($orderDetails['coupon_code'])['vendor_id'] > 0) {{-- if a Coupon Code has been used, and this Coupon Code belongs to a 'vendor', not 'admin' (Because in `coupons` table, if the `vendor_id` column is 1 one, this means that the Coupon Code is added by a 'vendor', not 'admin', and if the `vendor_id` column is 0 zero, this means that the Coupon Code is added by an 'admin', not 'vendor') --}}
                                                             @php
-                                                                // dd(\App\Models\Coupon::couponDetails($orderDetails['coupon_code'])['vendor_id']);    
+                                                                // dd(\App\Models\Coupon::couponDetails($orderDetails['coupon_code'])['vendor_id']);
                                                             @endphp
-                                                            
+
                                                         {{ $total_price = ($product['product_price'] * $product['product_qty']) - $item_discount }}
                                                         @else {{-- if a Coupon Code has been used, and this Coupon Code belongs to an 'admin', not 'vendor' (Because in `coupons` table, if the `vendor_id` column is 1 one, this means that the Coupon Code is added by a 'vendor', not 'admin', and if the `vendor_id` column is 0 zero, this means that the Coupon Code is added by an 'admin', not 'vendor') --}}
                                                             {{ $total_price = $product['product_price'] * $product['product_qty'] }}
                                                         @endif
-                                                    
+
                                                     @else {{-- If there isn't a Coupon Code used --}}
                                                         {{ $total_price = $product['product_price'] * $product['product_qty'] }}
                                                     @endif
@@ -386,9 +386,9 @@
                                                 @else {{-- if the product belongs to an 'admin', not 'vendor' --}}
                                                     {{ $total_price = $product['product_price'] * $product['product_qty'] }}
                                                 @endif
-                                            </td> {{-- Total Price = Unit Price * Quantity --}} 
+                                            </td> {{-- Total Price = Unit Price * Quantity --}}
 
-                                            
+
                                             @if (\Illuminate\Support\Facades\Auth::guard('admin')->user()->type != 'vendor') {{-- If the authenticated/logged-in user is an 'admin', 'superadmin' or 'subadmin', NOT 'vendor' --}} {{-- Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances --}}
                                                 @if ($product['vendor_id'] > 0) {{-- if the product belongs to a 'vendor' --}}
                                                     <td>
@@ -399,19 +399,19 @@
                                                 @endif
                                             @endif
 
-                                            
-                                            
+
+
                                             @if ($product['vendor_id'] > 0) {{-- if the product belongs to a 'vendor' --}}
-                                                <td>{{ $commission = round($total_price * $product['commission'] / 100, 2) }}</td> 
+                                                <td>{{ $commission = round($total_price * $product['commission'] / 100, 2) }}</td>
                                                 <td>{{ $total_price - $commission }}</td>
                                             @else
                                                 <td>0</td>
                                                 <td>{{ $total_price }}</td>
                                             @endif
 
-                                            
+
                                             <td>
-                                                
+
                                                 {{-- Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc. --}}
                                                 <form action="{{ url('admin/update-order-item-status') }}" method="post">  {{-- can be updated by both 'vendor'-s and 'admin'-s. This is in contrast to 'Update Order Status' which can be updated by 'admin'-s ONLY --}}
                                                     @csrf {{-- Preventing CSRF Requests: https://laravel.com/docs/9.x/csrf#preventing-csrf-requests --}}
@@ -432,7 +432,7 @@
                                                     <button type="submit">Update</button>
                                                 </form>
                                             </td>
-                                        </tr>         
+                                        </tr>
                                     @endforeach
                                 </table>
                             </div>
