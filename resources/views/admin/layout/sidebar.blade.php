@@ -126,6 +126,22 @@
                 </div>
             </li>
 
+            <li class="nav-item">
+                <a @if (Session::get('page') == 'flower') style="background: #052CA3 !important; color: #FFF !important" @endif class="nav-link" data-toggle="collapse" href="#ui-flower" aria-expanded="false" aria-controls="ui-flower">
+                    <i class="icon-layout menu-icon"></i>
+                    <span class="menu-title">Flower Management</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-flower">
+                    <ul class="nav flex-column sub-menu" style="background: #fff !important; color: #052CA3 !important">
+                        <li class="nav-item"> <a @if (Session::get('page') == 'jenis')   style="background: #052CA3 !important; color: #FFF !important" @else style="background: #fff !important; color: #052CA3 !important" @endif class="nav-link" href="{{ url('admin/jenis') }}">Jenis Flower</a></li>
+                        <li class="nav-item"> <a @if (Session::get('page') == 'warna')   style="background: #052CA3 !important; color: #FFF !important" @else style="background: #fff !important; color: #052CA3 !important" @endif class="nav-link" href="{{ url('admin/warna') }}">Warna Flower</a></li>
+                        <li class="nav-item"> <a @if (Session::get('page') == 'ukuran')   style="background: #052CA3 !important; color: #FFF !important" @else style="background: #fff !important; color: #052CA3 !important" @endif class="nav-link" href="{{ url('admin/ukuran') }}">Ukuran Flower</a></li>
+
+                    </ul>
+                </div>
+            </li>
+
 
             <li class="nav-item">
                 <a @if (Session::get('page') == 'ratings') style="background: #052CA3 !important; color: #FFF !important" @endif class="nav-link" data-toggle="collapse" href="#ui-ratings" aria-expanded="false" aria-controls="ui-ratings">
