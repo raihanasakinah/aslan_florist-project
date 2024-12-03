@@ -15,7 +15,7 @@
                 <h3 class="pull-right">
                     Order # {{ $orderDetails['id'] }}
 
-                    {{-- Laravel barcode/QR code generation package (to show barcodes/QR codes for both Product ID and Product Code): https://github.com/milon/barcode --}} 
+                    {{-- Laravel barcode/QR code generation package (to show barcodes/QR codes for both Product ID and Product Code): https://github.com/milon/barcode --}}
                     @php
                         echo DNS1D::getBarcodeHTML($orderDetails['id'], 'C39');       // This is the product `id` Barcode
                         // echo DNS2D::getBarcodeHTML($orderDetails['id'], 'QRCODE'); // This is the product `id` QR code
@@ -75,7 +75,7 @@
     		</div>
     	</div>
     </div>
-    
+
     <div class="row">
     	<div class="col-md-12">
     		<div class="panel panel-default">
@@ -108,7 +108,7 @@
                                         <td>
                                             {{ $product['product_code'] }}
 
-                                            {{-- Laravel barcode/QR code generation package (to show barcodes/QR codes for both Product ID and Product Code): https://github.com/milon/barcode --}} 
+                                            {{-- Laravel barcode/QR code generation package (to show barcodes/QR codes for both Product ID and Product Code): https://github.com/milon/barcode --}}
                                             @php
                                                 echo DNS1D::getBarcodeHTML($product['product_code'], 'C39');       // This is the product `product_code` Barcode
                                                 // echo DNS2D::getBarcodeHTML($product['product_code'], 'QRCODE'); // This is the product `product_code` QR code
@@ -116,9 +116,9 @@
                                         </td>
                                         <td class="text-center">{{ $product['product_size'] }}</td>
                                         <td class="text-center">{{ $product['product_color'] }}</td>
-                                        <td class="text-center">INR {{ $product['product_price'] }}</td>
+                                        <td class="text-center">Rp {{ $product['product_price'] }}</td>
                                         <td class="text-center">{{ $product['product_qty'] }}</td>
-                                        <td class="text-right">INR {{ $product['product_price'] * $product['product_qty'] }}</td>
+                                        <td class="text-right">Rp {{ $product['product_price'] * $product['product_qty'] }}</td>
                                     </tr>
 
                                     {{-- Continue: Calculate the Subtotal --}}
@@ -133,7 +133,7 @@
                                     <td class="thick-line"></td>
                                     <td class="thick-line"></td>
                                     <td class="thick-line text-right"><strong>Subtotal</strong></td>
-                                    <td class="thick-line text-right">INR {{ $subTotal }}</td>
+                                    <td class="thick-line text-right">Rp {{ $subTotal }}</td>
                                 </tr>
                                 <tr>
                                     <td class="no-line"></td>
@@ -141,7 +141,7 @@
                                     <td class="no-line"></td>
                                     <td class="no-line"></td>
                                     <td class="no-line text-right"><strong>Shipping Charges</strong></td>
-                                    <td class="no-line text-right">INR 0</td>
+                                    <td class="no-line text-right">Rp 0</td>
                                 </tr>
                                 <tr>
                                     <td class="no-line"></td>
@@ -150,7 +150,7 @@
                                     <td class="no-line"></td>
                                     <td class="no-line text-right"><strong>Grand Total</strong></td>
                                     <td class="no-line text-right">
-                                        <strong>INR {{ $orderDetails['grand_total'] }}</strong>
+                                        <strong>Rp {{ $orderDetails['grand_total'] }}</strong>
                                         <br>
 
                                         @if ($orderDetails['payment_method'] == 'COD')

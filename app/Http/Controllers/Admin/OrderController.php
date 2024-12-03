@@ -17,23 +17,23 @@ use App\Models\OrderItemStatus;
 
 class OrderController extends Controller
 {
-    // Note: In the Admin Panel, in the Orders Management section, if the authenticated/logged-in user is 'vendor', we'll show the orders of the products added by/related to that 'vendor' ONLY, but if the authenticated/logged-in user is 'admin', we'll show ALL orders    
+    // Note: In the Admin Panel, in the Orders Management section, if the authenticated/logged-in user is 'vendor', we'll show the orders of the products added by/related to that 'vendor' ONLY, but if the authenticated/logged-in user is 'admin', we'll show ALL orders
 
 
 
-    // Render admin/orders/orders.blade.php page (Orders Management section) in the Admin Panel    
+    // Render admin/orders/orders.blade.php page (Orders Management section) in the Admin Panel
     public function orders() {
         // Correcting issues in the Skydash Admin Panel Sidebar using Session
         Session::put('page', 'orders');
 
 
-        // We determine the authenticated/logged-in user. If the authenticated/logged-in user is 'vendor', we show ONLY the orders of the products added by that specific 'vendor' ONLY, but if the authenticated/logged-in user is 'admin', we show ALL orders    
-        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    
-        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    
+        // We determine the authenticated/logged-in user. If the authenticated/logged-in user is 'vendor', we show ONLY the orders of the products added by that specific 'vendor' ONLY, but if the authenticated/logged-in user is 'admin', we show ALL orders
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table
 
 
         if ($adminType == 'vendor') { // if the authenticated user (the logged in user) is 'vendor', check his `status`
-            $vendorStatus = Auth::guard('admin')->user()->status; // `status` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `status` column in `admins` table    
+            $vendorStatus = Auth::guard('admin')->user()->status; // `status` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `status` column in `admins` table
 
             if ($vendorStatus == 0) { // if the 'vendor' is inactive/disabled
                 return redirect('admin/update-vendor-details/personal')->with('error_message', 'Your Vendor Account is not approved yet. Please make sure to fill your valid personal, business and bank details.'); // the error_message will appear to the vendor in the route: 'admin/update-vendor-details/personal' which is the update_vendor_details.blade.php page
@@ -58,18 +58,18 @@ class OrderController extends Controller
         return view('admin.orders.orders')->with(compact('orders'));
     }
 
-    // Render admin/orders/order_details.blade.php (View Order Details page) when clicking on the View Order Details icon in admin/orders/orders.blade.php (Orders tab under Orders Management section in Admin Panel)    
+    // Render admin/orders/order_details.blade.php (View Order Details page) when clicking on the View Order Details icon in admin/orders/orders.blade.php (Orders tab under Orders Management section in Admin Panel)
     public function orderDetails($id) {
         // Correcting issues in the Skydash Admin Panel Sidebar using Session
         Session::put('page', 'orders');
 
-        
-        // We determine the authenticated/logged-in user. If the authenticated/logged-in user is 'vendor', we show ONLY the details (the `orders_products` table) of the orders of the products added by that specific 'vendor' ONLY (in admin/orders/order_details.blade.php page), but if the authenticated/logged-in user is 'admin', we show ALL orders details (in admin/orders/order_details.blade.php page)    
-        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table    
-        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table    
-        
+
+        // We determine the authenticated/logged-in user. If the authenticated/logged-in user is 'vendor', we show ONLY the details (the `orders_products` table) of the orders of the products added by that specific 'vendor' ONLY (in admin/orders/order_details.blade.php page), but if the authenticated/logged-in user is 'admin', we show ALL orders details (in admin/orders/order_details.blade.php page)
+        $adminType = Auth::guard('admin')->user()->type;      // `type`      is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `type`      column in `admins` table
+        $vendor_id = Auth::guard('admin')->user()->vendor_id; // `vendor_id` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `vendor_id` column in `admins` table
+
         if ($adminType == 'vendor') { // if the authenticated user (the logged in user) is 'vendor', check his `status`
-            $vendorStatus = Auth::guard('admin')->user()->status; // `status` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `status` column in `admins` table    
+            $vendorStatus = Auth::guard('admin')->user()->status; // `status` is the column in `admins` table    // Accessing Specific Guard Instances: https://laravel.com/docs/9.x/authentication#accessing-specific-guard-instances    // Retrieving The Authenticated User and getting their `status` column in `admins` table
 
             if ($vendorStatus == 0) { // if the 'vendor' is inactive/disabled
                 return redirect('admin/update-vendor-details/personal')->with('error_message', 'Your Vendor Account is not approved yet. Please make sure to fill your valid personal, business and bank details.'); // the error_message will appear to the vendor in the route: 'admin/update-vendor-details/personal' which is the update_vendor_details.blade.php page
@@ -77,7 +77,7 @@ class OrderController extends Controller
         }
 
 
-        
+
         if ($adminType == 'vendor') { // If the authenticated/logged-in user is 'vendor', we show ONLY the details of the orders of the products added by that specific 'vendor' ONLY (from `orders_products` table) in admin/orders/order_details.blade.php page
             $orderDetails = Order::with([ // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model    // Constraining Eager Loads: https://laravel.com/docs/9.x/eloquent-relationships#constraining-eager-loads    // Subquery Where Clauses: https://laravel.com/docs/9.x/queries#subquery-where-clauses    // Advanced Subqueries: https://laravel.com/docs/9.x/eloquent#advanced-subqueries
                 'orders_products' => function($query) use ($vendor_id) { // function () use ()     syntax: https://www.php.net/manual/en/functions.anonymous.php#:~:text=the%20use%20language%20construct     // 'orders_products' is the Relationship method name in Order.php model
@@ -95,22 +95,22 @@ class OrderController extends Controller
         $userDetails = User::where('id', $orderDetails['user_id'])->first()->toArray();
         // dd($userDetails);
 
-        // Get the 'active' order statuses from `orders` table (which is determined by 'admin'-s ONLY, not 'vendor'-s, in contrast to "Update Item Status" which can be updated by both 'vendor'-s and 'admin'-s) (Pending, Shipped, In Progress, Canceled, ...)    
+        // Get the 'active' order statuses from `orders` table (which is determined by 'admin'-s ONLY, not 'vendor'-s, in contrast to "Update Item Status" which can be updated by both 'vendor'-s and 'admin'-s) (Pending, Shipped, In Progress, Canceled, ...)
         // Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc.
         $orderStatuses = OrderStatus::where('status', 1)->get()->toArray();
         // dd($orderStatuses);
 
-        // Get the 'active' item statuses from `orders_products` table (which can be determined by both 'vendor'-s and 'admin'-s, in contrast to "Update Order Status" which is updated by 'admin'-s ONLY, not 'vendor'-s) (Pending, In Progress, Shipped, Delivered, ...)    
+        // Get the 'active' item statuses from `orders_products` table (which can be determined by both 'vendor'-s and 'admin'-s, in contrast to "Update Order Status" which is updated by 'admin'-s ONLY, not 'vendor'-s) (Pending, In Progress, Shipped, Delivered, ...)
         // Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc.
         $orderItemStatuses = OrderItemStatus::where('status', 1)->get()->toArray();
         // dd($orderItemStatuses);
 
-        // Show the "Update Order Status" History/Log in admin/orders/order_details.blade.php    
+        // Show the "Update Order Status" History/Log in admin/orders/order_details.blade.php
         $orderLog = OrdersLog::with('orders_products')->where('order_id', $id)->orderBy('id', 'Desc')->get()->toArray(); // Show Order Log descendingly    // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in OrdersLog.php model
         // dd($orderLog);
 
 
-        
+
         // Calculate the total items count (the total quantity of all items) in the Cart (including how many items of the same product i.e. 3 small-sized T-shirts + 2 mobile phones of 128GB RAM)
         $total_items = 0;
 
@@ -131,7 +131,7 @@ class OrderController extends Controller
         return view('admin.orders.order_details')->with(compact('orderDetails', 'userDetails', 'orderStatuses', 'orderItemStatuses', 'orderLog', 'item_discount'));
     }
 
-    // Update Order Status (by 'admin'-s ONLY, not 'vendor'-s, in contrast to "Update Item Status" which can be updated by both 'vendor'-s and 'admin'-s) (Pending, Shipped, In Progress, Canceled, ...) in admin/orders/order_details.blade.php in Admin Panel    
+    // Update Order Status (by 'admin'-s ONLY, not 'vendor'-s, in contrast to "Update Item Status" which can be updated by both 'vendor'-s and 'admin'-s) (Pending, Shipped, In Progress, Canceled, ...) in admin/orders/order_details.blade.php in Admin Panel
     // Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc.
     public function updateOrderStatus(Request $request) {
         if ($request->isMethod('post')) {
@@ -139,7 +139,7 @@ class OrderController extends Controller
             // dd($data);
 
             // Note: There are two types of Shipping Process: "manual" and "automatic". "Manual" is in the case like small businesses, where the courier arrives at the owner warehouse to to pick up the order for shipping, and the small business owner takes the shipment details (like courier name, tracking number, ...) from the courier, and inserts those details themselves in the Admin Panel when they "Update Order Status" Section (by an 'admin') or "Update Item Status" Section (by a 'vendor' or 'admin') (in admin/orders/order_details.blade.php). With "automatic" shipping process, we're integrating third-party APIs (e.g. Shiprocket API) and orders go directly to the shipping partner, and the updates comes from the courier's end, and orders are automatically delivered to customers
-            // "Automatic" Shipping Process (when 'admin' does NOT enter the Courier Name and Tracking Number): Configure the Shiprocket API in our Admin Panel in admin/orders/order_details.blade.php (to automate Pushing Orders to Shiprocket API by selecting "Shipped" from the drop-down menu)    
+            // "Automatic" Shipping Process (when 'admin' does NOT enter the Courier Name and Tracking Number): Configure the Shiprocket API in our Admin Panel in admin/orders/order_details.blade.php (to automate Pushing Orders to Shiprocket API by selecting "Shipped" from the drop-down menu)
             if (empty($data['courier_name']) && empty($data['tracking_number']) && $data['order_status'] == 'Shipped') { // if the 'admin' didn't enter the Courier Name and Tracking Nubmer when they selected "Shipped" from the drop-down menu in admin/orders/order_details.blade.php, use the "Automatic" Shipping Process (Push Orders to Shiprocket API), not the "Manual" Shipping process. Check the "Manual" Shipping process in the next if statement
                 // dd('Inside Automatic Shipping Process if statement in updateOrderStatus() method in Admin/OrderController.php<br>');
                 // echo 'Inside Automatic Shipping Process if statement in updateOrderStatus() method in Admin/OrderController.php<br>';
@@ -170,7 +170,7 @@ class OrderController extends Controller
             }
 
 
-            // We'll save the "Update Order Status" History/Logs in `orders_logs` database table (whenever an 'admin' updates an order status)    
+            // We'll save the "Update Order Status" History/Logs in `orders_logs` database table (whenever an 'admin' updates an order status)
             $log = new OrdersLog;
             $log->order_id     = $data['order_id'];
             $log->order_status = $data['order_status'];
@@ -181,7 +181,7 @@ class OrderController extends Controller
             $deliveryDetails = Order::select('mobile', 'email', 'name')->where('id', $data['order_id'])->first()->toArray();
             $orderDetails    = Order::with('orders_products')->where('id', $data['order_id'])->first()->toArray(); // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model
 
-            
+
             if (!empty($data['courier_name']) && !empty($data['tracking_number'])) { // if an 'admin' Updates the Order Status to 'Shipped' in admin/orders/order_details.blade.php, and submits both Courier Name and Tracking Number HTML input fields, include the Courier Name and Tracking Nubmer data in the email (send them with the email)
                 $email = $deliveryDetails['email'];
 
@@ -211,7 +211,7 @@ class OrderController extends Controller
                     'orderDetails' => $orderDetails,
                     'order_status' => $data['order_status']
                 ];
-    
+
                 \Illuminate\Support\Facades\Mail::send('emails.order_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_status' is the order_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
                     $message->to($email)->subject('Order Status Updated - MultiVendorEcommerceApplication.com.eg');
                 });
@@ -224,7 +224,7 @@ class OrderController extends Controller
         }
     }
 
-    // Update Item Status (which can be determined by both 'vendor'-s and 'admin'-s, in contrast to "Update Order Status" which is updated by 'admin'-s ONLY, not 'vendor'-s) (Pending, In Progress, Shipped, Delivered, ...) in admin/orders/order_details.blade.php in Admin Panel    
+    // Update Item Status (which can be determined by both 'vendor'-s and 'admin'-s, in contrast to "Update Order Status" which is updated by 'admin'-s ONLY, not 'vendor'-s) (Pending, In Progress, Shipped, Delivered, ...) in admin/orders/order_details.blade.php in Admin Panel
     // Note: The `order_statuses` table contains all kinds of order statuses (that can be updated by 'admin'-s ONLY in `orders` table) like: pending, in progress, shipped, canceled, ...etc. In `order_statuses` table, the `name` column can be: 'New', 'Pending', 'Canceled', 'In Progress', 'Shipped', 'Partially Shipped', 'Delivered', 'Partially Delivered' and 'Paid'. 'Partially Shipped': If one order has products from different vendors, and one vendor has shipped their product to the customer while other vendor (or vendors) didn't!. 'Partially Delivered': if one order has products from different vendors, and one vendor has shipped and DELIVERED their product to the customer while other vendor (or vendors) didn't!    // The `order_item_statuses` table contains all kinds of order statuses (that can be updated by both 'vendor'-s and 'admin'-s in `orders_products` table) like: pending, in progress, shipped, canceled, ...etc.
     public function updateOrderItemStatus(Request $request) {
         if ($request->isMethod('post')) {
@@ -249,7 +249,7 @@ class OrderController extends Controller
             $getOrderId = OrdersProduct::select('order_id')->where('id', $data['order_item_id'])->first()->toArray();
 
 
-            // We'll save the Update "Item Status" History/Logs in `orders_logs` database table (whenever a 'vendor' or 'admin' updates an order item status)    
+            // We'll save the Update "Item Status" History/Logs in `orders_logs` database table (whenever a 'vendor' or 'admin' updates an order item status)
             // Note: In `orders_logs` table, if the `order_item_id` column is zero 0, this means the "Item Status" has never been updated, and if it's not zero 0, this means it's been previously updated by a 'vendor' or 'admin' and the number references/denotes the `id` column (foreign key) of the `orders_products` table
             $log = new OrdersLog;
             $log->order_id      = $getOrderId['order_id'];
@@ -301,7 +301,7 @@ class OrderController extends Controller
                     'orderDetails' => $orderDetails,
                     'order_status' => $data['order_item_status']
                 ];
-    
+
                 \Illuminate\Support\Facades\Mail::send('emails.order_item_status', $messageData, function ($message) use ($email) { // Sending Mail: https://laravel.com/docs/9.x/mail#sending-mail    // 'emails.order_item_status' is the order_item_status.blade.php file inside the 'resources/views/emails' folder that will be sent as an email    // We pass in all the variables that order_item_status.blade.php will use    // https://www.php.net/manual/en/functions.anonymous.php
                     $message->to($email)->subject('Order Item Status Updated - MultiVendorEcommerceApplication.com.eg');
                 });
@@ -314,7 +314,7 @@ class OrderController extends Controller
         }
     }
 
-    // Render order invoice page (HTML) in order_invoice.blade.php    
+    // Render order invoice page (HTML) in order_invoice.blade.php
     public function viewOrderInvoice($order_id) { // Route Parameters: Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
         $orderDetails = Order::with('orders_products')->where('id', $order_id)->first()->toArray(); // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model
         // dd($orderDetails);
@@ -324,7 +324,7 @@ class OrderController extends Controller
         return view('admin.orders.order_invoice')->with(compact('orderDetails', 'userDetails'));
     }
 
-    // Render order PDF invoice in order_invoice.blade.php using Dompdf Package    
+    // Render order PDF invoice in order_invoice.blade.php using Dompdf Package
     // (We'll use the same viewPDFInvoice() function (but with different routes/URLs!) to render the PDF invoice for 'admin'-s in the Admin Panel and for the user to download it!)    // User download order PDF invoice (we created this route outside outside the Admin Panel routes so that the user could use it!)
     public function viewPDFInvoice($order_id) { // Route Parameters: Required Parameters: https://laravel.com/docs/9.x/routing#required-parameters
         $orderDetails = Order::with('orders_products')->where('id', $order_id)->first()->toArray(); // Eager Loading: https://laravel.com/docs/9.x/eloquent-relationships#eager-loading    // 'orders_products' is the relationship method name in Order.php model
@@ -361,26 +361,26 @@ class OrderController extends Controller
                         font-size: 100%;
                         vertical-align: baseline;
                     }
-            
+
                     html {
                         line-height: 1;
                     }
-            
+
                     ol, ul {
                         list-style: none;
                     }
-            
+
                     table {
                         border-collapse: collapse;
                         border-spacing: 0;
                     }
-            
+
                     caption, th, td {
                         text-align: left;
                         font-weight: normal;
                         vertical-align: middle;
                     }
-            
+
                     q, blockquote {
                         quotes: none;
                     }
@@ -388,15 +388,15 @@ class OrderController extends Controller
                         content: "";
                         content: none;
                     }
-            
+
                     a img {
                         border: none;
                     }
-            
+
                     article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
                         display: block;
                     }
-            
+
                     body {
                         font-family: "Source Sans Pro", sans-serif;
                         font-weight: 300;
@@ -436,7 +436,7 @@ class OrderController extends Controller
                     body .no-break {
                         page-break-inside: avoid;
                     }
-            
+
                     header {
                         margin-top: 20px;
                         margin-bottom: 50px;
@@ -494,7 +494,7 @@ class OrderController extends Controller
                         min-width: 100px;
                         text-align: right;
                     }
-            
+
                     section .details {
                         margin-bottom: 55px;
                     }
@@ -591,7 +591,7 @@ class OrderController extends Controller
                         color: #8BC34A;
                         font-size: 1.18181818181818em;
                     }
-            
+
                     footer {
                         margin-bottom: 20px;
                     }
@@ -611,7 +611,7 @@ class OrderController extends Controller
                     }
                 </style>
             </head>
-            
+
             <body>
                 <header class="clearfix">
                     <div class="container">
@@ -635,7 +635,7 @@ class OrderController extends Controller
                         </div>
                     </div>
                 </header>
-            
+
                 <section>
                     <div class="container">
                         <div class="details clearfix">
@@ -651,13 +651,13 @@ class OrderController extends Controller
                                 <div class="title">Order ID: ' . $orderDetails['id'] . '</div>
                                 <div class="date">
                                     Order Date: ' . date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])) . '<br>
-                                    Order Amount: INR ' . $orderDetails['grand_total'] . '<br>
+                                    Order Amount: Rp ' . $orderDetails['grand_total'] . '<br>
                                     Order Status: ' . $orderDetails['order_status'] . '<br>
                                     Payment Method: ' . $orderDetails['payment_method'] . '<br>
                                 </div>
                             </div>
                         </div>
-            
+
                         <table border="0" cellspacing="0" cellpadding="0">
                             <thead>
                                 <tr>
@@ -681,8 +681,8 @@ class OrderController extends Controller
                                         <td class="qty">' . $product['product_size'] . '</td>
                                         <td class="qty">' . $product['product_color'] . '</td>
                                         <td class="qty">' . $product['product_qty'] . '</td>
-                                        <td class="unit">INR ' . $product['product_price'] . '</td>
-                                        <td class="total">INR ' . $product['product_price'] * $product['product_qty'] . '</td>
+                                        <td class="unit">Rp ' . $product['product_price'] . '</td>
+                                        <td class="total">Rp ' . $product['product_price'] * $product['product_qty'] . '</td>
                                     </tr>';
 
                                 // Continue: Calculate the Subtotal
@@ -701,14 +701,14 @@ class OrderController extends Controller
                                         <td class="desc"></td>
                                         <td class="desc"></td>
                                         <td class="total" colspan=2>SUBTOTAL</td>
-                                        <td class="total">INR ' . $subTotal . '</td>
+                                        <td class="total">Rp ' . $subTotal . '</td>
                                     </tr>
                                     <tr>
                                         <td class="desc"></td>
                                         <td class="desc"></td>
                                         <td class="desc"></td>
                                         <td class="total" colspan=2>SHIPPING</td>
-                                        <td class="total">INR 0</td>
+                                        <td class="total">Rp 0</td>
                                     </tr>
                                     <tr>
                                         <td class="desc"></td>
@@ -718,10 +718,10 @@ class OrderController extends Controller
 
                                         if ($orderDetails['coupon_amount'] > 0) {
                                             // We CONCATENATE $invoiceHTML
-                                            $invoiceHTML .= '<td class="total">INR '. $orderDetails['coupon_amount'] . '</td>';
+                                            $invoiceHTML .= '<td class="total">Rp '. $orderDetails['coupon_amount'] . '</td>';
                                         } else {
                                             // We CONCATENATE $invoiceHTML
-                                            $invoiceHTML .= '<td class="total">INR 0</td>';
+                                            $invoiceHTML .= '<td class="total">Rp 0</td>';
                                         }
 
                                         // We CONCATENATE $invoiceHTML
@@ -732,23 +732,23 @@ class OrderController extends Controller
                                         <td class="desc"></td>
                                         <td class="desc"></td>
                                         <td class="total" colspan="2">TOTAL</td>
-                                        <td class="total">INR ' . $orderDetails['grand_total'] . '</td>
+                                        <td class="total">Rp ' . $orderDetails['grand_total'] . '</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </section>
-            
+
                 <footer>
                     <div class="container">
                         <div class="thanks">Thank you!</div>
                         <div class="end">Invoice was created on a computer and is valid without the signature and seal.</div>
                     </div>
                 </footer>
-            
+
             </body>
-            
+
             </html>
         ';
 
@@ -757,7 +757,7 @@ class OrderController extends Controller
         // instantiate and use the dompdf class
         $dompdf = new \Dompdf\Dompdf();
         // dd($dompdf);
-        
+
         $dompdf->loadHtml($invoiceHTML);
 
         // (Optional) Setup the paper size and orientation

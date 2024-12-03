@@ -19,7 +19,7 @@
         margin: 4px 2px;
         cursor: pointer;
         }
-        
+
         .button1 {background-color: #4CAF50;} /* Green */
         .button2 {background-color: #008CBA;} /* Blue */
     </style>
@@ -49,7 +49,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12" align="center">
-                    <h3>PLEASE MAKE <span style="color: red">INR {{ Session::get('grand_total') }}</span> PAYMENT FOR YOUR ORDER</h3>
+                    <h3>PLEASE MAKE <span style="color: red">Rp {{ Session::get('grand_total') }}</span> PAYMENT FOR YOUR ORDER</h3>
                     <a href="{{ url('iyzipay/pay') }}">
                         <button class="button button2">Pay Now</button> {{-- Interacting With The Session: Retrieving Data: https://laravel.com/docs/9.x/session#retrieving-data --}}
                     </a>
