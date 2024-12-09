@@ -54,6 +54,11 @@ $sections = \App\Models\Section::sections();
                                 <i class="fas fa-money-bill u-s-m-r-9"></i>
                                 Checkout</a>
                             </li>
+                            <li>
+                                <a href="{{ url('design') }}">
+                                <i class="fa fa-image u-s-m-r-9"></i>
+                                Design Custom</a>
+                            </li>
 
 
 

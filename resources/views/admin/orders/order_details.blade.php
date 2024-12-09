@@ -96,11 +96,16 @@
                             </div>
                             <div class="form-group" style="height: 15px">
                                 <label style="font-weight: 550">Order Total: </label>
-                                <label>Rp {{ $orderDetails['grand_total'] }}</label>
+                                {{-- <label>Rp {{ $orderDetails['grand_total'] }}</label> --}}
+                                {{-- <label>Rp {{ $orderDetails['grand_total'] }}</label> --}}
+                                <label>Rp {{ number_format($orderDetails['grand_total'], 0, ',', '.') }},-</label>
+
                             </div>
                             <div class="form-group" style="height: 15px">
                                 <label style="font-weight: 550">Shipping Charges: </label>
-                                <label>Rp {{ $orderDetails['shipping_charges'] }}</label>
+                                {{-- <label>Rp {{ $orderDetails['shipping_charges'] }}</label> --}}
+                                <label>Rp {{ number_format($orderDetails['shipping_charges'], 0, ',', '.') }},-</label>
+
                             </div>
 
                             @if (!empty($orderDetails['coupon_code']))
@@ -360,7 +365,9 @@
                                             <td>{{ $product['product_name'] }}</td>
                                             <td>{{ $product['product_size'] }}</td>
                                             <td>{{ $product['product_color'] }}</td>
-                                            <td>{{ $product['product_price'] }}</td>
+                                            {{-- <td>{{ $product['product_price'] }}</td> --}}
+                                            <td>Rp {{ number_format($product['product_price'], 0, ',', '.') }},-</td>
+
                                             <td>{{ $product['product_qty'] }}</td>
                                             <td>
 
@@ -375,16 +382,22 @@
                                                             @endphp
 
                                                         {{ $total_price = ($product['product_price'] * $product['product_qty']) - $item_discount }}
+
                                                         @else {{-- if a Coupon Code has been used, and this Coupon Code belongs to an 'admin', not 'vendor' (Because in `coupons` table, if the `vendor_id` column is 1 one, this means that the Coupon Code is added by a 'vendor', not 'admin', and if the `vendor_id` column is 0 zero, this means that the Coupon Code is added by an 'admin', not 'vendor') --}}
                                                             {{ $total_price = $product['product_price'] * $product['product_qty'] }}
+
                                                         @endif
 
                                                     @else {{-- If there isn't a Coupon Code used --}}
                                                         {{ $total_price = $product['product_price'] * $product['product_qty'] }}
+
                                                     @endif
 
                                                 @else {{-- if the product belongs to an 'admin', not 'vendor' --}}
-                                                    {{ $total_price = $product['product_price'] * $product['product_qty'] }}
+                                                    {{-- {{ $total_price = $product['product_price'] * $product['product_qty'] }} --}}
+                                                    Rp {{ number_format($product['product_price'] * $product['product_qty'], 0, ',', '.') }},-
+
+
                                                 @endif
                                             </td> {{-- Total Price = Unit Price * Quantity --}}
 
@@ -406,7 +419,11 @@
                                                 <td>{{ $total_price - $commission }}</td>
                                             @else
                                                 <td>0</td>
-                                                <td>{{ $total_price }}</td>
+                                                {{-- <td>{{ $total_price }}</td> --}}
+                                                {{-- <td>Rp {{ number_format($product['product_price'], 0, ',', '.') }},-</td> --}}
+                                                <td>Rp {{ number_format($product['product_price'] * $product['product_qty'], 0, ',', '.') }},-</td>
+
+
                                             @endif
 
 

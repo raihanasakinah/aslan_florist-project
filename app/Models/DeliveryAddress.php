@@ -19,9 +19,9 @@ class DeliveryAddress extends Model
 
 
 
-    // Get all the delivery addresses of the currently authenticated/logged-in user    
+    // Get all the delivery addresses of the currently authenticated/logged-in user
     public static function deliveryAddresses() {
-        $deliveryAddresses = DeliveryAddress::where('user_id', Auth::user()->id)->get()->toArray(); // Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
+        $deliveryAddresses = DeliveryAddress::where('user_id', Auth::user()->id)->get(); // Retrieving The Authenticated User: https://laravel.com/docs/9.x/authentication#retrieving-the-authenticated-user
 
 
         return $deliveryAddresses;

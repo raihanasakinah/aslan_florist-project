@@ -62,35 +62,71 @@ $(document).ready(function() {
 
 
     // the <select> box in front/products/detail.blade.php (to show the correct related `price` and `stock` depending on the selected `size` (from the `products_attributes` table))
-    $('#getPrice').change(function() {
-        // console.log(this);
-        var size       = $(this).val();
-        var product_id = $(this).attr('product-id');
-        // console.log(size, product_id);
+    // $('#getPrice').change(function() {
+    //     // console.log(this);
+    //     var size       = $(this).val();
+    //     var product_id = $(this).attr('product-id');
+    //     // console.log(size, product_id);
 
+
+    //     $.ajax({
+    //         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, // X-CSRF-TOKEN: https://laravel.com/docs/9.x/csrf#csrf-x-csrf-token
+    //         url    : '/get-product-price', // check this route in web.php
+    //         type   : 'post',
+    //         data   : {size: size, product_id: product_id}, // Sending name/value pairs to server with the AJAX request (AJAX call)
+    //         success: function(resp) {
+    //             console.log(resp);
+    //             if (resp.discount > 0) { // if there's a discount    // this is the same as:    if (resp['discount'] > 0) {
+    //                 $('.getAttributePrice').html(
+    //                     '<div class="price"><h4>Rp' + resp.final_price + '</h4></div><div class="original-price"><span>Original Price: </span><span>Rp' + resp.product_price + '</span></div>'
+    //                 ); // Note: resp.product_price    is the same as    resp['product_price']
+    //             } else { // if there's no discount
+    //                 $('.getAttributePrice').html(
+    //                     '<div class="price"><h4>Rp' + resp.final_price + '</h4></div>'
+    //                 ); // Note: resp.final_price    is the same as    resp['final_price']
+    //             }
+    //         },
+    //         error  : function() {
+    //             alert('Error');
+    //         }
+    //     });
+    // });
+    $('#getPrice').change(function() {
+        var size = $(this).val();
+        var product_id = $(this).attr('product-id');
 
         $.ajax({
-            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}, // X-CSRF-TOKEN: https://laravel.com/docs/9.x/csrf#csrf-x-csrf-token
-            url    : '/get-product-price', // check this route in web.php
-            type   : 'post',
-            data   : {size: size, product_id: product_id}, // Sending name/value pairs to server with the AJAX request (AJAX call)
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            url: '/get-product-price',
+            type: 'post',
+            data: { size: size, product_id: product_id },
             success: function(resp) {
                 console.log(resp);
-                if (resp.discount > 0) { // if there's a discount    // this is the same as:    if (resp['discount'] > 0) {
+
+                // Fungsi untuk memformat angka
+                function numberFormat(number) {
+                    return 'Rp. '+ new Intl.NumberFormat('id-ID', {
+                        minimumFractionDigits: 0
+                    }).format(number);
+                }
+
+                if (resp.discount > 0) { // Jika ada diskon
                     $('.getAttributePrice').html(
-                        '<div class="price"><h4>Rp' + resp.final_price + '</h4></div><div class="original-price"><span>Original Price: </span><span>Rp' + resp.product_price + '</span></div>'
-                    ); // Note: resp.product_price    is the same as    resp['product_price']
-                } else { // if there's no discount
+                        '<div class="price"><h4>' + numberFormat(resp.final_price) + '</h4></div>' +
+                        '<div class="original-price"><span>Original Price: </span><span>' + numberFormat(resp.product_price) + '</span></div>'
+                    );
+                } else { // Jika tidak ada diskon
                     $('.getAttributePrice').html(
-                        '<div class="price"><h4>Rp' + resp.final_price + '</h4></div>'
-                    ); // Note: resp.final_price    is the same as    resp['final_price']
+                        '<div class="price"><h4>' + numberFormat(resp.final_price) + '</h4></div>'
+                    );
                 }
             },
-            error  : function() {
+            error: function() {
                 alert('Error');
             }
         });
     });
+
 
 
 

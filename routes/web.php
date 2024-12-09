@@ -286,6 +286,9 @@ Route::namespace('App\Http\Controllers\Front')->group(function() {
         // Render User Account page with 'GET' request (front/users/user_account.blade.php), or the HTML Form submission in the same page with 'POST' request using AJAX (to update user details). Check front/js/custom.js
         Route::match(['GET', 'POST'], 'user/account', 'UserController@userAccount');
 
+        // 'design custom' page
+        Route::get('user/design/{id?}', 'DesignController@design');
+
         // User Account Update Password HTML Form submission via AJAX. Check front/js/custom.js
         Route::post('user/update-password', 'UserController@userUpdatePassword');
 

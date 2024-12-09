@@ -14,7 +14,7 @@
                 <ul class="bread-crumb">
                     <li class="has-separator">
                         <i class="ion ion-md-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="{{ url(' ') }}">Home</a>
                     </li>
                     <li class="is-marked">
                         <a href="#">Orders</a>
@@ -34,6 +34,7 @@
                         <th>Ordered Products</th> {{-- We'll display products codes --}}
                         <th>Payment Method</th>
                         <th>Grand Total</th>
+                        <th>Status</th>
                         <th>Created on</th>
                         @foreach ($orders as $order)
                             <tr>
@@ -47,12 +48,14 @@
                                     @endforeach
                                 </td>
                                 <td>{{ $order['payment_method'] }}</td>
-                                <td>{{ $order['grand_total'] }}</td>
+                                {{-- <td>{{ $order['grand_total'] }}</td> --}}
+                                <td>Rp {{ number_format($order['grand_total'], 0, ',', '.') }},-</td>
                                 <td>{{ date('Y-m-d h:i:s', strtotime($order['created_at'])) }}</td>
                             </tr>
                         @endforeach
                     </tr>
                 </table>
+                Note: Including Shipping Charges Rp. 10.000,-
             </div>
         </div>
     </div>

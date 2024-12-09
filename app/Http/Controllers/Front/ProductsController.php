@@ -943,6 +943,7 @@ class ProductsController extends Controller
     public function productSelected(Request $request){
         $data= $request->all();
 
+
         if(empty($data['selected_products'])){
             $message = 'Check Items Shopping Cart is empty! Please add products to your Cart or select product to checkout';
             return redirect('cart')->with('error_message', $message); // redirect user to the cart.blade.php page, and show an error message in cart.blade.php
@@ -962,13 +963,27 @@ class ProductsController extends Controller
             }
 
             $getCartItems=Cart::where('user_id',Auth::user()->id)->where('product_id', $productId)->first();
-            $cartTemp=new ProductSelected();
-            $cartTemp->session_id=$getCartItems['session_id'];
-            $cartTemp->user_id=Auth::user()->id;
-            $cartTemp->product_id=$productId;
-            $cartTemp->size=$getCartItems['size'];
-            $cartTemp->quantity=$quantity;
-            $cartTemp->save();
+
+            $cartTemp= ProductSelected::where('session_id',$getCartItems['session_id'])->where('user_id',Auth::user()->id)->where('product_id', $productId)->first();
+
+            if($cartTemp){
+                $cartTemp->session_id=$getCartItems['session_id'];
+                $cartTemp->user_id=Auth::user()->id;
+                $cartTemp->product_id=$productId;
+                $cartTemp->size=$getCartItems['size'];
+                $cartTemp->quantity=$quantity;
+                $cartTemp->save();
+            }
+
+            else{
+                $cartTemp=new ProductSelected();
+                $cartTemp->session_id=$getCartItems['session_id'];
+                $cartTemp->user_id=Auth::user()->id;
+                $cartTemp->product_id=$productId;
+                $cartTemp->size=$getCartItems['size'];
+                $cartTemp->quantity=$quantity;
+                $cartTemp->save();
+            }
         }
         return redirect()->to('/checkout');
     }
@@ -1101,9 +1116,11 @@ class ProductsController extends Controller
         }
 
 
-        $deliveryAddresses = DeliveryAddress::deliveryAddresses(); // the delivery addresses of the currently authenticated/logged in user
+        $deliveryAddresses = DeliveryAddress::where('user_id',Auth::user()->id)->get()->toArray(); // the delivery addresses of the currently authenticated/logged in user
+
 
         $addressId= $deliveryAddresses[0]['id'];
+
 
         // Calculating the Shipping Charges of every one of the user's Delivery Addresses (depending on the 'country' of the Delivery Address)
         // foreach ($deliveryAddresses as $key => $value) {
@@ -1160,7 +1177,7 @@ class ProductsController extends Controller
 
             // Validation:
             // Delivery Address Validation
-            if (empty($addressId)) { // if the user doesn't select a Delivery Address
+            if (!$addressId) { // if the user doesn't select a Delivery Address
                 $message = 'Please select Delivery Address!';
 
                 return redirect()->back()->with('error_message', $message);

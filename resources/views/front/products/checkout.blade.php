@@ -11,7 +11,7 @@
                 <ul class="bread-crumb">
                     <li class="has-separator">
                         <i class="ion ion-md-home"></i>
-                        <a href="index.html">Home</a>
+                        <a href="{{ url(' ') }}">Home</a>
                     </li>
                     <li class="is-marked">
                         <a href="checkout.html">Checkout</a>
@@ -66,9 +66,6 @@
                                 <form name="checkoutForm" id="checkoutForm" action="{{ url('/checkout') }}" method="post">
                                     @csrf {{-- Preventing CSRF Requests: https://laravel.com/docs/9.x/csrf#preventing-csrf-requests --}}
 
-
-
-
                                     @if (count($deliveryAddresses) > 0) {{-- Checking if there are any $deliveryAddreses for the currently authenticated/logged-in user --}} {{-- $deliveryAddresses variable is passed in from checkout() method in Front/ProductsController.php --}}
 
                                         <h4 class="section-h4">Delivery Addresses</h4>
@@ -79,7 +76,7 @@
                                                 {{-- <input type="radio" id="address{{ $address['id'] }}" name="address_id" value="{{ $address['id'] }}" shipping_charges="{{ $address['shipping_charges'] }}" total_price="{{ $total_price }}" coupon_amount="{{ \Illuminate\Support\Facades\Session::get('couponAmount') }}" codpincodeCount="{{ $address['codpincodeCount'] }}" prepaidpincodeCount="{{ $address['prepaidpincodeCount'] }}"> $total_price variable is passed in from checkout() method in Front/ProductsController.php We created the Custom HTML Attribute id="address{{ $address['id'] }}" to get the UNIQUE ids of the addresses in order for the <label> HTML element to be able to point for that <input> --}}
                                             </div>
                                             <div>
-                                                <label class="control-label" for="address{{ $address['id'] }}">
+                                                <label class="form-control" for="address{{ $address['id'] }}">
                                                     {{ $address['name'] }}, {{ $address['address'] }}, {{ $address['city'] }}, {{ $address['pincode'] }}, ({{ $address['mobile'] }})
                                                 </label>
                                                 <a href="javascript:;" data-addressid="{{ $address['id'] }}" class="removeAddress" style="float: right; margin-left: 10px">Remove</a>
@@ -141,7 +138,11 @@
                                                             <span class="order-span-quantity">x {{ $item['quantity'] }}</span>
                                                         </td>
                                                         <td>
-                                                            <h6 class="order-h6">Rp {{ $getDiscountAttributePrice['final_price'] * $item['quantity'] }}</h6> {{-- price of all products (after discount (if any)) (= price (after discoutn) * no. of products) --}}
+                                                            @php
+                                                                $price= $getDiscountAttributePrice['final_price'] * $item['quantity']
+                                                            @endphp
+                                                            {{-- <h6 class="order-h6">Rp {{ $getDiscountAttributePrice['final_price'] * $item['quantity'] }}</h6> price of all products (after discount (if any)) (= price (after discoutn) * no. of products) --}}
+                                                            <h6 class="order-h6">Rp {{ number_format($price, 0, ',', '.') }},-</h6>
                                                         </td>
                                                     </tr>
 
@@ -157,7 +158,7 @@
                                                         <h3 class="order-h3">Subtotal</h3>
                                                     </td>
                                                     <td>
-                                                        <h3 class="order-h3">Rp {{ $total_price }}</h3>
+                                                        <h3 class="order-h3">Rp {{ number_format($total_price, 0, ',', '.') }},-</h3>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -166,7 +167,7 @@
                                                     </td>
                                                     <td>
                                                         <h6 class="order-h6">
-                                                            <span class="shipping_charges">Rp 0</span>
+                                                            <span class="shipping_charges">Rp 10.000,-</span>
                                                         </h6>
                                                     </td>
                                                 </tr>
@@ -191,7 +192,10 @@
                                                     </td>
                                                     <td>
                                                         <h3 class="order-h3">
-                                                            <strong class="grand_total">Rp {{ $total_price - \Illuminate\Support\Facades\Session::get('couponAmount') }}</strong> {{-- We create the 'grand_total' CSS class to use it as a handle for AJAX inside    $('#applyCoupon').submit();    function in front/js/custom.js --}} {{-- We stored the 'couponAmount' a Session Variable inside the applyCoupon() method in Front/ProductsController.php --}}
+                                                            @php
+                                                                $grandTotal= $total_price - \Illuminate\Support\Facades\Session::get('couponAmount')
+                                                            @endphp
+                                                            <strong class="grand_total">Rp {{ number_format($grandTotal, 0, ',', '.') }},-</strong> {{-- We create the 'grand_total' CSS class to use it as a handle for AJAX inside    $('#applyCoupon').submit();    function in front/js/custom.js --}} {{-- We stored the 'couponAmount' a Session Variable inside the applyCoupon() method in Front/ProductsController.php --}}
                                                         </h3>
                                                     </td>
                                                 </tr>

@@ -10,7 +10,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h4 class="card-title">Orders</h4>
-                            
+
 
 
                             <div class="table-responsive pt-3">
@@ -46,7 +46,9 @@
                                                             <br>
                                                         @endforeach
                                                     </td>
-                                                    <td>{{ $order['grand_total'] }}</td>
+                                                    {{-- <td>{{ $order['grand_total'] }}</td> --}}
+                                                    <td>Rp {{ number_format($order['grand_total'], 0, ',', '.') }},-</td>
+
                                                     <td>{{ $order['order_status'] }}</td>
                                                     <td>{{ $order['payment_method'] }}</td>
                                                     <td>
@@ -55,13 +57,13 @@
                                                         </a>
                                                         &nbsp;&nbsp;
 
-                                                        {{-- View HTML invoice --}} 
+                                                        {{-- View HTML invoice --}}
                                                         <a title="View Order Invoice" href="{{ url('admin/orders/invoice/' . $order['id']) }}" target="_blank">
                                                             <i style="font-size: 25px" class="mdi mdi-printer"></i> {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>
                                                         &nbsp;&nbsp;
 
-                                                        {{-- View PDF invoice --}} 
+                                                        {{-- View PDF invoice --}}
                                                         <a title="Print PDF Invoice" href="{{ url('admin/orders/invoice/pdf/' . $order['id']) }}" target="_blank">
                                                             <i style="font-size: 25px" class="mdi mdi-file-pdf"></i> {{-- Icons from Skydash Admin Panel Template --}}
                                                         </a>

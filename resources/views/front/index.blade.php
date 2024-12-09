@@ -137,7 +137,9 @@
                                                 @else {{-- if there's no discount on the price, show the original price --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rp {{ $product['product_price'] }}
+                                                            {{-- Rp {{ $product['product_price'] }} --}}
+                                                            Rp {{ number_format($product['product_price'], 0, ',', '.') }},-
+
                                                         </div>
                                                     </div>
                                                 @endif
@@ -221,7 +223,9 @@
                                                 @else {{-- if there's no discount on the price, show the original price --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rp {{ $product['product_price'] }}
+                                                            {{-- Rp {{ $product['product_price'] }} --}}
+                                                            Rp {{ number_format($product['product_price'], 0, ',', '.') }},-
+
                                                         </div>
                                                     </div>
                                                 @endif
@@ -302,7 +306,9 @@
                                                 @else {{-- if there's no discount on the price, show the original price --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rp {{ $product['product_price'] }}
+                                                            {{-- Rp {{ $product['product_price'] }} --}}
+                                                            Rp {{ number_format($product['product_price'], 0, ',', '.') }},-
+
                                                         </div>
                                                     </div>
                                                 @endif
@@ -383,7 +389,9 @@
                                                 @else {{-- if there's no discount on the price, show the original price --}}
                                                     <div class="price-template">
                                                         <div class="item-new-price">
-                                                            Rp {{ $product['product_price'] }}
+                                                            {{-- Rp {{ $product['product_price'] }} --}}
+                                                            Rp {{ number_format($product['product_price'], 0, ',', '.') }},-
+
                                                         </div>
                                                     </div>
                                                 @endif

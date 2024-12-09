@@ -93,7 +93,8 @@
                                 {{-- if there's no discount on the price, show the original price --}}
                                 <div class="price-template">
                                     <div class="item-new-price">
-                                        Rp {{ $getDiscountAttributePrice['final_price'] }}
+                                        {{-- Rp {{ $getDiscountAttributePrice['final_price'] }} --}}
+                                        Rp {{ number_format($getDiscountAttributePrice['final_price'], 0, ',', '.') }},-
                                     </div>
                                 </div>
                             @endif
@@ -122,7 +123,9 @@
                     </td>
                     <td>
                         <div class="cart-price">
-                            Rp {{ $getDiscountAttributePrice['final_price'] * $item['quantity'] }}
+                            @php $price= $getDiscountAttributePrice['final_price'] * $item['quantity'] @endphp
+                            Rp {{ number_format($price, 0, ',', '.') }},-
+                            
                             {{-- price of all products (after discount (if any)) (= price (after discoutn) * no. of products) --}}
                         </div>
                     </td>
